@@ -1,12 +1,10 @@
-import { App, Plugin, PluginSettingTab, Setting } from 'obsidian';
+import { Plugin } from 'obsidian';
 
-interface PathOfLifeSettings {
-	mySetting: string;
-}
-
-const DEFAULT_SETTINGS: PathOfLifeSettings = {
-	mySetting: 'default',
-};
+import {
+	DEFAULT_SETTINGS,
+	PathOfLifeSettings,
+	PathOfLifeSettingTab,
+} from './settings/settings';
 
 export default class PathOfLifePlugin extends Plugin {
 	settings: PathOfLifeSettings;
@@ -25,22 +23,5 @@ export default class PathOfLifePlugin extends Plugin {
 
 	async saveSettings() {
 		await this.saveData(this.settings);
-	}
-}
-
-class PathOfLifeSettingTab extends PluginSettingTab {
-	plugin: PathOfLifePlugin;
-
-	constructor(app: App, plugin: PathOfLifePlugin) {
-		super(app, plugin);
-		this.plugin = plugin;
-	}
-
-	display(): void {
-		const { containerEl } = this;
-
-		containerEl.empty();
-
-		new Setting(containerEl).setName('Hierarchical notes').setHeading();
 	}
 }
