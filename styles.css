@@ -7,7 +7,17 @@ If your plugin does not need CSS, delete this file.
 
 */
 
-.view-actions-container {
-	height: 20px;
+.pol__view-actions-container {
 	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: #1e1b4b;
+}
+button.pol__view-action-button {
+	border: none;
+	padding: 5px;
+	background-color: transparent;
+	color: white;
+	cursor: pointer;
 }

@@ -1,7 +1,9 @@
 import { App, TFile, MarkdownView } from 'obsidian';
+import { renderActions } from './renderActions';
+import { CLASS_NAMES } from './constants';
+import { NOTES_ACTIONS } from './actionsForNotes';
 
 const NOTES = 'data/notes/mess';
-const CLASS_NAME = 'view-actions-container';
 
 export async function renderViewActions(app: App, file: TFile) {
 	const view: MarkdownView | null =
@@ -24,7 +26,7 @@ function appendOrRemoveActions(
 	headerEl: HTMLElement
 ) {
 	const isActionsContainer: any = childrenEl.find((item: HTMLElement) =>
-		item.classList.contains(CLASS_NAME)
+		item.classList.contains(CLASS_NAMES.ACTIONS_CONTAINER)
 	);
 	// this duplicate to RemoveChild() but its necessary for mobile users
 	if (isActionsContainer && !file?.path?.startsWith(NOTES)) {
@@ -36,9 +38,8 @@ function appendOrRemoveActions(
 			containerEl.removeChild(isActionsContainer);
 		}
 		const viewActionsContainer = document.createElement('div');
-		viewActionsContainer.addClasses([CLASS_NAME]);
-		//@ts-ignore
-		viewActionsContainer.style.backgroundColor = 'red';
+		viewActionsContainer.addClasses([CLASS_NAMES.ACTIONS_CONTAINER]);
+		renderActions(viewActionsContainer, NOTES_ACTIONS);
 		headerEl.insertAdjacentElement('afterend', viewActionsContainer);
 	}
 }
