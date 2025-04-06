@@ -12,7 +12,7 @@ If your plugin does not need CSS, delete this file.
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	background-color: #1e1b4b;
+	background-color: #c7d2fe;
 }
 button.pol__view-action-button {
 	border: none;
@@ -20,4 +20,7 @@ button.pol__view-action-button {
 	background-color: transparent;
 	color: white;
 	cursor: pointer;
+	box-shadow: none;
+	border: 0;
+
 }
