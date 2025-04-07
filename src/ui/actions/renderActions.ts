@@ -9,11 +9,13 @@ import { ViewAction } from './types';
  */
 export function renderActions(container: HTMLElement, actions: ViewAction[]) {
 	actions.forEach((action) => {
-		new ButtonComponent(container)
+		const btn = new ButtonComponent(container)
 			.setButtonText(action.cta)
 			.setTooltip(action.tooltip)
 			.setIcon(action.icon)
 			.setClass(CLASS_NAMES.ACTION_BUTTON)
 			.onClick(action.onClick);
+
+		action.cls && btn.setClass(`${action.cls ? action.cls : ''}`);
 	});
 }

@@ -4,7 +4,7 @@ import PathOfLifePlugin from 'main';
 
 import { renderActions } from './renderActions';
 import { CLASS_NAMES } from './constants';
-import { getNoteActions } from './actionsForNotes';
+import { getNoteActions, getNoteRightActions } from './actionsForNotes';
 
 export async function renderViewActions(
 	app: App,
@@ -35,7 +35,11 @@ export async function renderViewActions(
 			}
 			const viewActionsContainer = document.createElement('div');
 			viewActionsContainer.addClasses([CLASS_NAMES.ACTIONS_CONTAINER]);
-			renderActions(viewActionsContainer, getNoteActions(plugin));
+			const leftEl = viewActionsContainer.createDiv();
+			const centerEl = viewActionsContainer.createDiv();
+			const rightEl = viewActionsContainer.createDiv();
+			renderActions(centerEl, getNoteActions(plugin));
+			renderActions(rightEl, getNoteRightActions(plugin, file));
 			headerEl.insertAdjacentElement('afterend', viewActionsContainer);
 		}
 	}

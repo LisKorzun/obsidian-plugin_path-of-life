@@ -1,10 +1,11 @@
+import { App, TFile } from 'obsidian';
+
 import PathOfLifePlugin from 'main';
-import { fileCreateFromTemplate, fileHighlight } from 'utils';
+import { fileCreateFromTemplate, fileHighlight, fileDelete } from 'utils';
 import { noteRootTemplate } from 'ui/templates';
 import { NoteRoot } from 'ui/modals';
 
 import { ViewAction } from './types';
-import { App } from 'obsidian';
 
 export const getNoteActions: (plugin: PathOfLifePlugin) => ViewAction[] = (
 	plugin: PathOfLifePlugin
@@ -35,3 +36,20 @@ function createRoot(app: App) {
 		await fileHighlight(app, path);
 	};
 }
+
+export const getNoteRightActions: (
+	plugin: PathOfLifePlugin,
+	file: TFile
+) => ViewAction[] = (plugin: PathOfLifePlugin, file: TFile) => {
+	return [
+		{
+			cta: 'Delete note',
+			tooltip: 'Danger! Delete note',
+			icon: 'lucide-trash',
+			cls: 'pol__view-action-button-inversion',
+			onClick: () => {
+				fileDelete(plugin.app, file);
+			},
+		},
+	];
+};

@@ -11,7 +11,7 @@ If your plugin does not need CSS, delete this file.
 	width: 100%;
 	display: flex;
 	align-items: center;
-	justify-content: center;
+	justify-content: space-between;
 	background-color: #c7d2fe;
 }
 button.pol__view-action-button {
@@ -23,4 +23,7 @@ button.pol__view-action-button {
 	box-shadow: none;
 	border: 0;
 
+}
+button.pol__view-action-button-inversion {
+	color: #312e81;
 }
