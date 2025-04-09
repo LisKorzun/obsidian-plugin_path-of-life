@@ -6,9 +6,8 @@ import { App, normalizePath, TFile } from 'obsidian';
  * @param path - The path of the folder to check.
  */
 export async function fileExists(app: App, path: string): Promise<boolean> {
-
 	const normalizedPath = normalizePath(path);
-	const file = app.vault.getFileByPath(`${normalizedPath}.md`);
+	const file = app.vault.getFileByPath(normalizedPath);
 
 	return Promise.resolve(file instanceof TFile);
 }

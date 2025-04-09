@@ -2,9 +2,9 @@ import { App, TFile, MarkdownView } from 'obsidian';
 
 import PathOfLifePlugin from 'main';
 
-import { renderActions } from './renderActions';
-import { CLASS_NAMES } from './constants';
-import { getNoteActions, getNoteRightActions } from './actionsForNotes';
+import { NoteHero } from '../components/NoteHero';
+
+const HERO_CONTAINER = 'pol__view-hero';
 
 export async function renderViewActions(
 	app: App,
@@ -17,11 +17,12 @@ export async function renderViewActions(
 	if (view !== null) {
 		const containerEl: HTMLElement = view.containerEl;
 		const childrenEl: Element[] = Array.from(containerEl.children);
+
 		//@ts-ignore
 		const headerEl: HTMLElement = view.headerEl;
 
 		const isActionsContainer: any = childrenEl.find((item: HTMLElement) =>
-			item.classList.contains(CLASS_NAMES.ACTIONS_CONTAINER)
+			item.classList.contains(HERO_CONTAINER)
 		);
 		if (
 			isActionsContainer &&
@@ -33,14 +34,11 @@ export async function renderViewActions(
 			if (isActionsContainer) {
 				containerEl.removeChild(isActionsContainer);
 			}
-			const viewActionsContainer = document.createElement('div');
-			viewActionsContainer.addClasses([CLASS_NAMES.ACTIONS_CONTAINER]);
-			const leftEl = viewActionsContainer.createDiv();
-			const centerEl = viewActionsContainer.createDiv();
-			const rightEl = viewActionsContainer.createDiv();
-			renderActions(centerEl, getNoteActions(plugin));
-			renderActions(rightEl, getNoteRightActions(plugin, file));
-			headerEl.insertAdjacentElement('afterend', viewActionsContainer);
+			const heroContainer = document.createElement('div');
+			heroContainer.addClass(HERO_CONTAINER);
+			new NoteHero(plugin, file, heroContainer).display();
+
+			headerEl.insertAdjacentElement('afterend', heroContainer);
 		}
 	}
 }

@@ -3,14 +3,14 @@ import { App, Modal, Notice, Setting } from 'obsidian';
 import PathOfLifePlugin from 'main';
 import { fileExists, fileHighlight } from 'utils';
 
-export class NoteRoot extends Modal {
+export class NoteChild extends Modal {
 	constructor(
 		app: App,
 		plugin: PathOfLifePlugin,
 		onSubmit: (result: string) => void
 	) {
 		super(app);
-		this.setTitle('NEW ROOT');
+		this.setTitle('NEW CHILD');
 
 		const { contentEl } = this;
 		let path: string = '';
@@ -35,10 +35,8 @@ export class NoteRoot extends Modal {
 			input
 				.setPlaceholder('Type the root file name')
 				.onChange(async (newName) => {
-					const newPath = `${plugin.settings.notesFolder}/${newName}.md`;
-					path = newPath;
-					exists = await fileExists(app, newPath);
-					console.log(exists, newPath);
+					path = `${plugin.settings.notesFolder}/${newName}.md`;
+					exists = await fileExists(app, path);
 				});
 			input.inputEl.addClass('templater_search');
 		});

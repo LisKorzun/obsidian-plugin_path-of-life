@@ -1,41 +1,36 @@
-import { App, TFile } from 'obsidian';
+import { TFile } from 'obsidian';
 
 import PathOfLifePlugin from 'main';
-import { fileCreateFromTemplate, fileHighlight, fileDelete } from 'utils';
-import { noteRootTemplate } from 'ui/templates';
-import { NoteRoot } from 'ui/modals';
+import { noteRootTemplate, noteChildTemplate } from 'ui/templates';
+import { NoteRoot, NoteChild } from 'ui/modals';
+import {
+	fileCreateFromTemplate,
+	fileHighlight,
+	fileDelete,
+	propertyAsFileLink,
+} from 'utils';
 
 import { ViewAction } from './types';
 
-export const getNoteActions: (plugin: PathOfLifePlugin) => ViewAction[] = (
-	plugin: PathOfLifePlugin
-) => {
+export const getNoteActions: (
+	plugin: PathOfLifePlugin,
+	file: TFile
+) => ViewAction[] = (plugin: PathOfLifePlugin, file: TFile) => {
 	return [
 		{
 			cta: 'New Root Note',
 			tooltip: 'Create the root note',
 			icon: 'lucide-folder-tree',
-			onClick: () => {
-				new NoteRoot(plugin.app, plugin, createRoot(plugin.app)).open();
-			},
+			onClick: createRootNote(plugin),
 		},
 		{
 			cta: 'New Child Note',
 			tooltip: 'Create the child note',
 			icon: 'lucide-baby',
-			onClick: () => {
-				console.log('Icon button clicked!');
-			},
+			onClick: createChildNote(plugin, file),
 		},
 	];
 };
-
-function createRoot(app: App) {
-	return async function (path: string) {
-		await fileCreateFromTemplate(app, path, noteRootTemplate);
-		await fileHighlight(app, path);
-	};
-}
 
 export const getNoteRightActions: (
 	plugin: PathOfLifePlugin,
@@ -46,10 +41,35 @@ export const getNoteRightActions: (
 			cta: 'Delete note',
 			tooltip: 'Danger! Delete note',
 			icon: 'lucide-trash',
-			cls: 'pol__view-action-button-inversion',
-			onClick: () => {
-				fileDelete(plugin.app, file);
+			cls: '',
+			onClick: async () => {
+				await fileDelete(plugin.app, file);
 			},
 		},
 	];
 };
+
+function createRootNote(plugin: PathOfLifePlugin) {
+	return async function () {
+		new NoteRoot(plugin.app, plugin, async (path: string) => {
+			const data = {
+				'{{order}}': '1',
+			};
+			await fileCreateFromTemplate(plugin.app, path, noteRootTemplate, data);
+			await fileHighlight(plugin.app, path);
+		}).open();
+	};
+}
+
+function createChildNote(plugin: PathOfLifePlugin, file: TFile) {
+	return async function () {
+		new NoteChild(plugin.app, plugin, async (path: string) => {
+			const data = {
+				'{{parent}}': propertyAsFileLink(file),
+				'{{order}}': '1',
+			};
+			await fileCreateFromTemplate(plugin.app, path, noteChildTemplate, data);
+			await fileHighlight(plugin.app, path);
+		}).open();
+	};
+}

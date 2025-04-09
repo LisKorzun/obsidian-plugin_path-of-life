@@ -1,3 +1,4 @@
 import { NoteRoot } from './NoteRoot';
+import { NoteChild } from './NoteChild';
 
-export { NoteRoot };
+export { NoteRoot, NoteChild };

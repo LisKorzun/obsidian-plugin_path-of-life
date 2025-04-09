@@ -1,10 +1,12 @@
 import { App, TFile, normalizePath, Notice } from 'obsidian';
 import { folderCreate } from './folderCreate';
 
+//TODO: Refactoring
 export async function fileCreateFromTemplate(
 	app: App,
 	path: string,
-	template: string
+	template: string,
+	data?: any
 ): Promise<TFile | null> {
 	// Check if the file already exists
 	const normalizedPath = normalizePath(path);
@@ -20,10 +22,19 @@ export async function fileCreateFromTemplate(
 	if (folderPath) {
 		await folderCreate(app, folderPath);
 	}
-
+	let newFileContent = template;
+	// Replace variables in the template
+	if (typeof data === 'object') {
+		for (const key in data) {
+			newFileContent = template.replace(
+				new RegExp(key.replace(/([{}])/g, '\\$1'), 'g'),
+				data[key]
+			);
+		}
+	}
 	try {
 		// Create the file with the template content
-		const newFile = await this.app.vault.create(normalizedPath, template);
+		const newFile = await this.app.vault.create(normalizedPath, newFileContent);
 		const leaf = this.app.workspace.getLeaf();
 		if (leaf) {
 			await leaf.openFile(newFile);

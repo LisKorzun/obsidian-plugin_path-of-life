@@ -1,29 +1,92 @@
-/*
-
-This CSS file will be included with your plugin, and
-available in the app when your plugin is enabled.
-
-If your plugin does not need CSS, delete this file.
-
-*/
-
-.pol__view-actions-container {
+/* COMMON ===================== */
+.pol__view-hero {
 	width: 100%;
+	padding-left: calc(var(--size-4-3) + var(--size-2-3)); /* the same as for back-button*/
+	padding-right: calc(var(--size-4-3)); /* the same as for */
+	/*background-image: linear-gradient(335deg, rgba(15, 2, 2, 1) 11.2%, rgba(36, 163, 190, 1) 91.1%);*/
+	background-image: linear-gradient( 164deg,  rgba(136,80,226,1) 4%, rgba(16,13,91,1) 96.5% );
+	color: var(--color-base-00);
+	--icon-size: var(--icon-s);
+	--icon-color: var(--color-base-05);
+}
+.pol__hero-heading-container {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	background-color: #c7d2fe;
-}
-button.pol__view-action-button {
-	border: none;
-	padding: 5px;
-	background-color: transparent;
-	color: white;
-	cursor: pointer;
-	box-shadow: none;
-	border: 0;
+	padding-top: var(--size-4-3);
+	padding-bottom: var(--size-4-3);
 
 }
-button.pol__view-action-button-inversion {
-	color: #312e81;
+.pol__hero-header {
+	font-size: var(--font-smallest);
+	font-weight: var(--font-black);
+	letter-spacing: 1px;
 }
+.pol__hero-breadcrumbs-container {
+
+}
+.pol__hero-title-container {
+	font-size: 3rem;
+	font-weight: var(--font-black);
+	letter-spacing: 3px;
+	line-height: 130%;
+
+}
+.pol__hero-contents-container {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding-top: var(--size-4-5);
+	padding-bottom: var(--size-4-5);
+}
+
+.pol__actions-container {
+	display: flex;
+	gap: var(--size-2-2);
+}
+
+/* NOTE HERO ===================== */
+
+
+
+
+
+
+
+
+/* Backgrounds */
+
+.pol__bg-disco {
+	background: #4ECDC4;  /* fallback for old browsers */
+	background: -webkit-linear-gradient(311deg, #556270, #4ECDC4);  /* Chrome 10-25, Safari 5.1-6 */
+	background: linear-gradient(311deg, #556270, #4ECDC4); /* W3C, IE 10+/Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.pol__bg-dania {
+	background: #BE93C5;  /* fallback for old browsers */
+	background: -webkit-linear-gradient(to right, #7BC6CC, #BE93C5);  /* Chrome 10-25, Safari 5.1-6 */
+	background: linear-gradient(to right, #7BC6CC, #BE93C5); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}
+
+.pol__bg-frost {
+	background: #000428;  /* fallback for old browsers */
+	background: -webkit-linear-gradient(134deg, #004e92, #000428);  /* Chrome 10-25, Safari 5.1-6 */
+	background: linear-gradient(134deg, #004e92, #000428); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}
+
+.pol__bg-deep-sea-space {
+	background: #2C3E50;  /* fallback for old browsers */
+	background: -webkit-linear-gradient(127deg, #4CA1AF, #2C3E50);  /* Chrome 10-25, Safari 5.1-6 */
+	background: linear-gradient(127deg, #4CA1AF, #2C3E50); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}
+.pol__bg-dark-sky {
+	background: #4B79A1;  /* fallback for old browsers */
+	background: -webkit-linear-gradient(to left, #283E51, #4B79A1);  /* Chrome 10-25, Safari 5.1-6 */
+	background: linear-gradient(to left, #283E51, #4B79A1); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}
+
+

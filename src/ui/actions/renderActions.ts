@@ -1,6 +1,12 @@
 import { ButtonComponent } from 'obsidian';
-import { CLASS_NAMES } from './constants';
-import { ViewAction } from './types';
+
+export interface ViewAction {
+	cta: string;
+	tooltip: string;
+	icon: string;
+	cls?: string;
+	onClick: (evt: MouseEvent) => void;
+}
 
 /**
  * Renders specific action buttons for the view
@@ -10,10 +16,10 @@ import { ViewAction } from './types';
 export function renderActions(container: HTMLElement, actions: ViewAction[]) {
 	actions.forEach((action) => {
 		const btn = new ButtonComponent(container)
-			.setButtonText(action.cta)
+			// .setButtonText(action.cta)
 			.setTooltip(action.tooltip)
 			.setIcon(action.icon)
-			.setClass(CLASS_NAMES.ACTION_BUTTON)
+			.setClass('clickable-icon')
 			.onClick(action.onClick);
 
 		action.cls && btn.setClass(`${action.cls ? action.cls : ''}`);
