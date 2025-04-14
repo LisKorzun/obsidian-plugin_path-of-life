@@ -4,6 +4,8 @@ import { fileHighlight } from './fileHighlight';
 import { fileExists } from './fileExists';
 import { fileDelete } from './fileDelete';
 import { fileCreateFromTemplate } from './fileCreateFromTemplate';
+import { fileFrontMatterGet } from './fileFrontMatterGet';
+import { fileLinkHTMLGet, fileLinkRenderer } from './fileLink';
 import { propertyAsFileLink } from './propertyUtils';
 
 export {
@@ -16,6 +18,9 @@ export {
 	fileExists,
 	fileDelete,
 	fileCreateFromTemplate,
+	fileFrontMatterGet,
+	fileLinkHTMLGet,
+	fileLinkRenderer,
 
 	// Property Utilities
 	propertyAsFileLink,

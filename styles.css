@@ -19,7 +19,7 @@
 }
 .pol__hero-header {
 	font-size: var(--font-smallest);
-	font-weight: var(--font-black);
+	font-weight: var(--font-extralight);
 	letter-spacing: 1px;
 }
 .pol__hero-breadcrumbs-container {

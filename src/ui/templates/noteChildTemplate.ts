@@ -1,4 +1,4 @@
 export const noteChildTemplate = `---
-parent: "[[{{parent}}]]"
-order: "{{order}}"
+predecessor: "[[{{predecessor}}]]"
+sequence: "{{sequence}}"
 ---`;

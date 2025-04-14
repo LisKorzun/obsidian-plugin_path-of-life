@@ -9,8 +9,7 @@ import {
 	fileDelete,
 	propertyAsFileLink,
 } from 'utils';
-
-import { ViewAction } from './types';
+import { ViewAction } from './renderActions';
 
 export const getNoteActions: (
 	plugin: PathOfLifePlugin,
@@ -53,7 +52,7 @@ function createRootNote(plugin: PathOfLifePlugin) {
 	return async function () {
 		new NoteRoot(plugin.app, plugin, async (path: string) => {
 			const data = {
-				'{{order}}': '1',
+				'{{sequence}}': '1',
 			};
 			await fileCreateFromTemplate(plugin.app, path, noteRootTemplate, data);
 			await fileHighlight(plugin.app, path);
@@ -65,8 +64,8 @@ function createChildNote(plugin: PathOfLifePlugin, file: TFile) {
 	return async function () {
 		new NoteChild(plugin.app, plugin, async (path: string) => {
 			const data = {
-				'{{parent}}': propertyAsFileLink(file),
-				'{{order}}': '1',
+				predecessor: propertyAsFileLink(file),
+				order: '1',
 			};
 			await fileCreateFromTemplate(plugin.app, path, noteChildTemplate, data);
 			await fileHighlight(plugin.app, path);

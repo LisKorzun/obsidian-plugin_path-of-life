@@ -1,3 +1,3 @@
 export const noteRootTemplate = `---
-order: "{{order}}"
+sequence: "{{sequence}}"
 ---`;

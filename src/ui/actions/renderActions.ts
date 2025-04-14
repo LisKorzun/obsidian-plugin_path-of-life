@@ -16,7 +16,6 @@ export interface ViewAction {
 export function renderActions(container: HTMLElement, actions: ViewAction[]) {
 	actions.forEach((action) => {
 		const btn = new ButtonComponent(container)
-			// .setButtonText(action.cta)
 			.setTooltip(action.tooltip)
 			.setIcon(action.icon)
 			.setClass('clickable-icon')

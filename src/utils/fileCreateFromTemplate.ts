@@ -22,16 +22,15 @@ export async function fileCreateFromTemplate(
 	if (folderPath) {
 		await folderCreate(app, folderPath);
 	}
-	let newFileContent = template;
 	// Replace variables in the template
-	if (typeof data === 'object') {
-		for (const key in data) {
-			newFileContent = template.replace(
-				new RegExp(key.replace(/([{}])/g, '\\$1'), 'g'),
-				data[key]
-			);
+	let newFileContent = template.replace(
+		/\{\{([^}]+)\}\}/g,
+		(match, variableName) => {
+			const value = data[variableName.trim()];
+			return value !== undefined ? value : match;
 		}
-	}
+	);
+
 	try {
 		// Create the file with the template content
 		const newFile = await this.app.vault.create(normalizedPath, newFileContent);
