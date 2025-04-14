@@ -7,7 +7,7 @@ import {
 	getNoteActions,
 	getNoteRightActions,
 } from '../actions/actionsForNotes';
-import { fileFrontMatterGet, fileLinkRenderer } from 'utils';
+import { fileLinkRenderer, fileSuccessorsGet } from 'utils';
 
 export class TNoteFile extends TFile {
 	sequence: string;
@@ -61,10 +61,10 @@ export class NoteHero implements ViewComponent {
 		const rightEl = contents.createDiv('pol__actions-container');
 		renderActions(rightEl, getNoteActions(this.plugin, this.file));
 		const container = this.container.createDiv('pol__hero-children-container');
-		const files = await getChildren(
+		const files = await fileSuccessorsGet(
 			this.app,
-			'data/notes/mess',
-			this.file.path
+			this.file.path,
+			this.plugin.settings.notesFolder
 		);
 		if (files) {
 			for (const file of files) {
@@ -72,42 +72,4 @@ export class NoteHero implements ViewComponent {
 			}
 		}
 	}
-}
-
-async function getChildren(
-	app: App,
-	folderPath: string,
-	filePath: string
-): Promise<TFile[] | null> {
-	try {
-		const folder = app.vault.getAbstractFileByPath(folderPath);
-		const files: TFile[] = [];
-		if (folder && folder instanceof TFolder) {
-			for (const child of folder.children) {
-				if (child instanceof TFile) {
-					const frontMatter = await fileFrontMatterGet(this.app, child);
-					console.log(child, frontMatter);
-					if (
-						frontMatter &&
-						frontMatter['predecessor'] &&
-						frontMatter['predecessor'].contains(filePath)
-					) {
-						files.push({ ...child, ...frontMatter });
-					}
-				}
-			}
-		}
-		console.log(files, files.sort(compareOrder));
-		return files;
-	} catch (e) {
-		console.log(e);
-		return null;
-	}
-}
-
-function compareOrder(a: TNoteFile, b: TNoteFile) {
-	return a.sequence.localeCompare(b.sequence, undefined, {
-		numeric: true,
-		sensitivity: 'base',
-	});
 }

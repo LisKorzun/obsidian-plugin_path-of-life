@@ -1,13 +1,17 @@
-import { MarkdownView, TFile } from 'obsidian';
+import { TFile } from 'obsidian';
 
-// TODO: Refactoring and Usage
-async function fileOpenByPath(
+/**
+ * Open file in active workspace leaf.
+ * @param filePath - File to open by path.
+ * @param sourcePath - Where to search for. Use "" as the second argument for the root.
+ */
+export async function fileOpenByPath(
 	filePath: string,
 	sourcePath: string = ''
 ): Promise<void> {
 	let file: TFile | null = this.app.metadataCache.getFirstLinkpathDest(
 		filePath,
-		sourcePath // Use "" as the second argument for the root
+		sourcePath
 	);
 
 	if (!file) {
@@ -15,8 +19,6 @@ async function fileOpenByPath(
 		return;
 	}
 
-	const view = this.app.workspace.getActiveViewOfType(MarkdownView);
-	if (view) {
-		await view.openFile(file, { active: true });
-	}
+	const leaf = this.app.workspace.getLeaf(false);
+	await leaf.openFile(file, { active: true });
 }

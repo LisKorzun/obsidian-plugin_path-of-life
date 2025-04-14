@@ -6,7 +6,9 @@ import { fileDelete } from './fileDelete';
 import { fileCreateFromTemplate } from './fileCreateFromTemplate';
 import { fileFrontMatterGet } from './fileFrontMatterGet';
 import { fileLinkHTMLGet, fileLinkRenderer } from './fileLink';
-import { propertyAsFileLink } from './propertyUtils';
+import { fileSuccessorsGet } from './fileSuccessors';
+import { fileOpenByPath } from './fileOpen';
+import { propertyAsFileLink, compareFileSequence } from './propertyUtils';
 
 export {
 	// Folder Utilities
@@ -21,7 +23,10 @@ export {
 	fileFrontMatterGet,
 	fileLinkHTMLGet,
 	fileLinkRenderer,
+	fileSuccessorsGet,
+	fileOpenByPath,
 
 	// Property Utilities
 	propertyAsFileLink,
+	compareFileSequence,
 };

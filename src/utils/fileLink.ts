@@ -1,4 +1,5 @@
 import { TFile } from 'obsidian';
+import { fileOpenByPath } from './fileOpen';
 
 /**
  * Returns link for the file as string for inner html property
@@ -31,7 +32,7 @@ export function fileLinkRenderer(
 	file: TFile,
 	cls = ''
 ) {
-	return container.createEl('a', {
+	const link = container.createEl('a', {
 		attr: {
 			'data-tooltip-position': 'top',
 			'aria-label': file.basename,
@@ -43,4 +44,10 @@ export function fileLinkRenderer(
 		cls: `internal-link ${cls}`,
 		text: file.basename,
 	});
+
+	link.addEventListener('click', async () => {
+		await fileOpenByPath(file.path, 'data/notes/mess');
+	});
+
+	return link;
 }
