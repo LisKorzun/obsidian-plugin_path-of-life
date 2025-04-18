@@ -9,7 +9,7 @@
 	--icon-size: var(--icon-s);
 	--icon-color: var(--color-base-05);
 }
-.pol__hero-heading-container {
+.pol__hero-heading {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -22,30 +22,82 @@
 	font-weight: var(--font-extralight);
 	letter-spacing: 1px;
 }
-.pol__hero-breadcrumbs-container {
+.pol__hero-breadcrumbs {
 
 }
-.pol__hero-title-container {
+.pol__hero-title {
 	font-size: 3rem;
 	font-weight: var(--font-black);
 	letter-spacing: 3px;
 	line-height: 130%;
-
+	margin-bottom: 10px;
 }
-.pol__hero-contents-container {
+.pol__hero-details {
+	display: grid;
+	grid-template-columns: auto 1fr;
+	grid-template-rows: auto auto;
+	grid-template-areas:
+    "button actions"
+    "contents contents";
+	gap: 20px;
+}
+.pol__hero-actions {
+	grid-area: actions;
 	display: flex;
 	align-items: center;
-	justify-content: space-between;
-	padding-top: var(--size-4-5);
-	padding-bottom: var(--size-4-5);
+	justify-content: flex-end;
 }
 
-.pol__actions-container {
+.pol__hero-contents-cta {
+	grid-area: button;
+
+	background-color: #fff3;
+	border-radius: 3px;
+	padding: var(--size-4-3) var(--size-4-5);
+	font-size: var(--font-small);
+	font-weight: var(--font-medium);
+	line-height: 1;
+	width: fit-content;
+	position: relative;
+}
+.pol__hero-contents-cta input{
+	position: absolute;
+	opacity: 0;
+	z-index: -1;
+}
+.pol__hero-contents-cta label {
 	display: flex;
-	gap: var(--size-2-2);
+	cursor: pointer;
+	gap: var(--size-4-2);
 }
+.pol__hero-contents-cta label::after {
+	content: "\276F";
+	width: 1em;
+	height: 1em;
+	text-align: center;
+	transform: rotate(90deg);
+	transition: all 0.35s;
+}
+.pol__hero-contents-cta input:checked + label::after {
+	transform: rotate(270deg);
+}
+.pol__hero-contents {
+	grid-area: contents;
 
-/* NOTE HERO ===================== */
+	max-height: 0;
+	overflow-x: hidden;
+	overflow-y: auto;
+	transition: all 0.35s;
+	display: flex;
+	flex-direction: column;
+	padding: 0 10px;
+}
+.pol__hero-contents a.internal-link {
+	margin-bottom: 20px;
+}
+.pol__hero-contents-cta:has(input:checked) ~ .pol__hero-contents {
+	max-height: 10rem;
+}
 
 
 

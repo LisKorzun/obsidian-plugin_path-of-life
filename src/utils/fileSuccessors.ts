@@ -13,7 +13,7 @@ export async function fileSuccessorsGet(
 	app: App,
 	filePath: string,
 	folderPath: string
-): Promise<TFile[] | null> {
+): Promise<TFile[]> {
 	try {
 		const folder = app.vault.getAbstractFileByPath(folderPath);
 		const files: TFile[] = [];
@@ -34,6 +34,6 @@ export async function fileSuccessorsGet(
 		return files.sort(compareFileSequence);
 	} catch (e) {
 		console.log(e);
-		return null;
+		return [];
 	}
 }

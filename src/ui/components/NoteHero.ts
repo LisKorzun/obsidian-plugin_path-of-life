@@ -1,4 +1,4 @@
-import { App, TFile, TFolder } from 'obsidian';
+import { App, TFile } from 'obsidian';
 
 import PathOfLifePlugin from 'main';
 
@@ -39,37 +39,50 @@ export class NoteHero implements ViewComponent {
 	}
 
 	renderTopHeader() {
-		const header = this.container.createDiv('pol__hero-heading-container');
+		const header = this.container.createDiv('pol__hero-heading');
 		header.createDiv({ text: 'ЗАМЕТКА', cls: 'pol__hero-header' });
 		const rightEl = header.createDiv();
 		renderActions(rightEl, getNoteRightActions(this.plugin, this.file));
 	}
 
 	async renderBreadcrumbs() {
-		const breadcrumbEl = this.container.createDiv(
-			'pol__hero-breadcrumbs-container'
-		);
+		const breadcrumbEl = this.container.createDiv('pol__hero-breadcrumbs');
 	}
+
 	renderTitle() {
-		const title = this.container.createDiv('pol__hero-title-container');
+		const title = this.container.createDiv('pol__hero-title');
 		title.innerText = this.file.basename;
 	}
 
 	async renderContents() {
-		const contents = this.container.createDiv('pol__hero-contents-container');
-		contents.createDiv({ text: '', cls: 'pol__hero-header' });
-		const rightEl = contents.createDiv('pol__actions-container');
-		renderActions(rightEl, getNoteActions(this.plugin, this.file));
-		const container = this.container.createDiv('pol__hero-children-container');
-		const files = await fileSuccessorsGet(
+		const successors = await fileSuccessorsGet(
 			this.app,
 			this.file.path,
 			this.plugin.settings.notesFolder
 		);
-		if (files) {
-			for (const file of files) {
-				fileLinkRenderer(container, file);
-			}
-		}
+
+		const details = this.container.createDiv('pol__hero-details');
+		const actions = details.createDiv('pol__hero-actions');
+		renderActions(actions, getNoteActions(this.plugin, this.file));
+		const contentCTA = details.createDiv('pol__hero-contents-cta');
+		renderExpandableCTA(
+			contentCTA,
+			`contents (${successors.length})`,
+			'note-contents'
+		);
+
+		const contents = details.createDiv('pol__hero-contents');
+		successors.forEach((file) => fileLinkRenderer(contents, file));
 	}
+}
+
+function renderExpandableCTA(container: HTMLElement, text: string, id: string) {
+	container.createEl('input', {
+		type: 'checkbox',
+		attr: { id, name: id },
+	});
+	container.createEl('label', {
+		text,
+		attr: { for: id },
+	});
 }
