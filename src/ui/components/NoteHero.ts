@@ -7,7 +7,12 @@ import {
 	getNoteActions,
 	getNoteRightActions,
 } from '../actions/actionsForNotes';
-import { fileLinkRenderer, fileSuccessorsGet } from 'utils';
+import {
+	fileFromLinkGet,
+	fileFrontMatterGet,
+	fileLinkRenderer,
+	fileSuccessorsGet,
+} from 'utils';
 
 export class TNoteFile extends TFile {
 	sequence: string;
@@ -47,6 +52,9 @@ export class NoteHero implements ViewComponent {
 
 	async renderBreadcrumbs() {
 		const breadcrumbEl = this.container.createDiv('pol__hero-breadcrumbs');
+		const fm: any = await fileFrontMatterGet(this.app, this.file);
+		const predecessor = fileFromLinkGet(this.app, fm.predecessor);
+		predecessor && fileLinkRenderer(breadcrumbEl, predecessor);
 	}
 
 	renderTitle() {

@@ -8,6 +8,7 @@ import { fileFrontMatterGet } from './fileFrontMatterGet';
 import { fileLinkHTMLGet, fileLinkRenderer } from './fileLink';
 import { fileSuccessorsGet } from './fileSuccessors';
 import { fileOpenByPath } from './fileOpen';
+import { fileFromLinkGet } from './fileFromLinkGet';
 import { propertyAsFileLink, compareFileSequence } from './propertyUtils';
 
 export {
@@ -25,6 +26,7 @@ export {
 	fileLinkRenderer,
 	fileSuccessorsGet,
 	fileOpenByPath,
+	fileFromLinkGet,
 
 	// Property Utilities
 	propertyAsFileLink,
