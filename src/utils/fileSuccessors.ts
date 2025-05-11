@@ -6,12 +6,12 @@ import { fileFrontMatterGet } from './fileFrontMatterGet';
 /**
  * Returns all successors for the filePath.
  * @param app - The Obsidian App instance.
- * @param filePath - File path as predecessor.
+ * @param basename - File basename as predecessor.
  * @param folderPath - The path of the folder to search for the files.
  */
 export async function fileSuccessorsGet(
 	app: App,
-	filePath: string,
+	basename: string,
 	folderPath: string
 ): Promise<TFile[]> {
 	try {
@@ -24,7 +24,7 @@ export async function fileSuccessorsGet(
 					if (
 						frontMatter &&
 						frontMatter['predecessor'] &&
-						frontMatter['predecessor'].contains(filePath)
+						frontMatter['predecessor'].contains(basename)
 					) {
 						files.push({ ...child, ...frontMatter });
 					}

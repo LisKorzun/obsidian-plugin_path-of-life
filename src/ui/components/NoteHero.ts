@@ -37,6 +37,7 @@ export class NoteHero implements ViewComponent {
 	}
 
 	display() {
+		this.container.innerHTML = '';
 		this.renderTopHeader();
 		this.renderBreadcrumbs();
 		this.renderTitle();
@@ -46,8 +47,8 @@ export class NoteHero implements ViewComponent {
 	renderTopHeader() {
 		const header = this.container.createDiv('pol__hero-heading');
 		header.createDiv({ text: 'ЗАМЕТКА', cls: 'pol__hero-header' });
-		const rightEl = header.createDiv();
-		renderActions(rightEl, getNoteRightActions(this.plugin, this.file));
+		const rightEl = header.createDiv({ cls: 'pol__note-actions' });
+		renderActions(rightEl, getNoteRightActions(this.plugin, this.file, this));
 	}
 
 	async renderBreadcrumbs() {
@@ -65,7 +66,7 @@ export class NoteHero implements ViewComponent {
 	async renderContents() {
 		const successors = await fileSuccessorsGet(
 			this.app,
-			this.file.path,
+			this.file.basename,
 			this.plugin.settings.notesFolder
 		);
 
@@ -87,7 +88,7 @@ export class NoteHero implements ViewComponent {
 function renderExpandableCTA(container: HTMLElement, text: string, id: string) {
 	container.createEl('input', {
 		type: 'checkbox',
-		attr: { id, name: id },
+		attr: { id, name: id, checked: 'checked' },
 	});
 	container.createEl('label', {
 		text,
