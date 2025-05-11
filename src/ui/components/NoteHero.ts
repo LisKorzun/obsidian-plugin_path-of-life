@@ -36,12 +36,12 @@ export class NoteHero implements ViewComponent {
 		this.container = container;
 	}
 
-	display() {
+	async display() {
 		this.container.innerHTML = '';
 		this.renderTopHeader();
-		this.renderBreadcrumbs();
+		await this.renderBreadcrumbs();
 		this.renderTitle();
-		this.renderContents();
+		await this.renderContents();
 	}
 
 	renderTopHeader() {

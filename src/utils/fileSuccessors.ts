@@ -8,11 +8,13 @@ import { fileFrontMatterGet } from './fileFrontMatterGet';
  * @param app - The Obsidian App instance.
  * @param basename - File basename as predecessor.
  * @param folderPath - The path of the folder to search for the files.
+ * @param rootOnly - Return the root files only.
  */
 export async function fileSuccessorsGet(
 	app: App,
 	basename: string,
-	folderPath: string
+	folderPath: string,
+	rootOnly: boolean = false
 ): Promise<TFile[]> {
 	try {
 		const folder = app.vault.getAbstractFileByPath(folderPath);
@@ -21,12 +23,18 @@ export async function fileSuccessorsGet(
 			for (const child of folder.children) {
 				if (child instanceof TFile) {
 					const frontMatter = await fileFrontMatterGet(this.app, child);
-					if (
-						frontMatter &&
-						frontMatter['predecessor'] &&
-						frontMatter['predecessor'].contains(basename)
-					) {
-						files.push({ ...child, ...frontMatter });
+					if (rootOnly) {
+						if (frontMatter && !frontMatter['predecessor']) {
+							files.push({ ...child, ...frontMatter });
+						}
+					} else {
+						if (
+							frontMatter &&
+							frontMatter['predecessor'] &&
+							frontMatter['predecessor'].contains(basename)
+						) {
+							files.push({ ...child, ...frontMatter });
+						}
 					}
 				}
 			}
