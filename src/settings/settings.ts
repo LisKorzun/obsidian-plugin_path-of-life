@@ -15,8 +15,10 @@ import {
 	folderCreate,
 	folderHighlight,
 } from '../utils';
-import { noteRootTemplate } from '../ui/templates';
-import * as sea from 'node:sea';
+import {
+	noteRootTemplate,
+	chronologicalNoteRootTemplate,
+} from '../ui/templates';
 
 export interface PathOfLifeSettings {
 	// Hierarchical notes
@@ -52,6 +54,7 @@ export class PathOfLifeSettingTab extends PluginSettingTab {
 
 		new Setting(containerEl).setName('Chronological Notes').setHeading();
 		this.setChronologicalNotesFolder(containerEl);
+		this.setChronologicalNoteRoot(containerEl);
 
 		new Setting(containerEl).setName('Hierarchical Notes').setHeading();
 		this.addRootNoteSetting(containerEl);
@@ -63,6 +66,25 @@ export class PathOfLifeSettingTab extends PluginSettingTab {
 		new Setting(containerEl)
 			.setName('Folder')
 			.setDesc('The home of all chronological notes')
+			.addButton((button) => {
+				button.setIcon('rotate-ccw').onClick(async () => {
+					if (DEFAULT_SETTINGS.chronologicalNotesFolder) {
+						await folderCreate(
+							this.app,
+							DEFAULT_SETTINGS.chronologicalNotesFolder
+						);
+						await folderHighlight(
+							this.app,
+							DEFAULT_SETTINGS.chronologicalNotesFolder
+						);
+						this.plugin.settings.chronologicalNotesFolder = normalizePath(
+							DEFAULT_SETTINGS.chronologicalNotesFolder
+						);
+						await this.plugin.saveSettings();
+						// TODO: update settings view or this input/search
+					}
+				});
+			})
 			.addSearch((search: SearchComponent) => {
 				new FolderSuggest(this.app, search.inputEl);
 				search
@@ -91,27 +113,39 @@ export class PathOfLifeSettingTab extends PluginSettingTab {
 							this.plugin.settings.chronologicalNotesFolder
 						);
 					});
+			});
+	}
+	private setChronologicalNoteRoot(containerEl: HTMLElement) {
+		new Setting(containerEl)
+			.setName('Root')
+			.setDesc('This is the root to start with chronological notes.')
+			.addSearch((search) => {
+				new FileSuggester(this.app, search.inputEl);
+				search
+					.setPlaceholder(this.plugin.settings.chronologicalNoteRoot)
+					.setValue(this.plugin.settings.chronologicalNoteRoot)
+					.onChange((newFile) => {
+						this.plugin.settings.chronologicalNoteRoot = normalizePath(newFile);
+						this.plugin.saveSettings();
+					});
+				// @ts-ignore
+				search.containerEl.addClass('pol_notes-folder-search');
 			})
 			.addButton((button) => {
 				button
 					.setCta()
-					.setButtonText('Default')
+					.setButtonText('Create')
 					.onClick(async () => {
-						if (DEFAULT_SETTINGS.chronologicalNotesFolder) {
-							await folderCreate(
-								this.app,
-								DEFAULT_SETTINGS.chronologicalNotesFolder
-							);
-							await folderHighlight(
-								this.app,
-								DEFAULT_SETTINGS.chronologicalNotesFolder
-							);
-							this.plugin.settings.chronologicalNotesFolder = normalizePath(
-								DEFAULT_SETTINGS.chronologicalNotesFolder
-							);
-							await this.plugin.saveSettings();
-							// TODO: update settings view or this input/search
-						}
+						await fileCreateFromTemplate(
+							this.app,
+							this.plugin.settings.chronologicalNoteRoot,
+							chronologicalNoteRootTemplate
+						);
+						await fileHighlight(
+							this.app,
+							this.plugin.settings.chronologicalNoteRoot
+						);
+						await fileOpenByPath(this.plugin.settings.chronologicalNoteRoot);
 					});
 			});
 	}
