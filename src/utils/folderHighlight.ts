@@ -5,7 +5,11 @@ import { App, Notice, TFolder } from 'obsidian';
  * @param app - The Obsidian App instance.
  * @param folderPath - The path of the folder to highlight.
  */
-export async function folderHighlight(app: App, folderPath: string): Promise<void> {
+export async function folderHighlight(
+	app: App,
+	folderPath: string | undefined
+): Promise<void> {
+	if (!folderPath) return;
 	try {
 		// Get the folder object
 		const folder = app.vault.getFolderByPath(folderPath);

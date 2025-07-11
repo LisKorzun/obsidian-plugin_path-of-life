@@ -8,6 +8,7 @@ import {
 	fileHighlight,
 	fileDelete,
 	propertyAsFileLink,
+	fileOpenByPath,
 } from 'utils';
 import { ViewAction } from './renderActions';
 import { NoteHero } from '../components/NoteHero';
@@ -78,6 +79,7 @@ function createChildNote(plugin: PathOfLifePlugin, file: TFile) {
 			};
 			await fileCreateFromTemplate(plugin.app, path, noteChildTemplate, data);
 			await fileHighlight(plugin.app, path);
+			await fileOpenByPath(path);
 		}).open();
 	};
 }
