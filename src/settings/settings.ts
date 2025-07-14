@@ -54,16 +54,52 @@ export class PathOfLifeSettingTab extends PluginSettingTab {
 		const { containerEl } = this;
 		containerEl.empty();
 
-		new Setting(containerEl).setName('Chronological Notes').setHeading();
+		new Setting(containerEl).setName('CHRONOLOGICAL').setHeading();
 		this.setChronologicalNoteRoot(containerEl);
 		this.setChronologicalNotesFolder(containerEl);
 		this.setChronologicalNoteFormat(containerEl);
 
-		new Setting(containerEl).setName('Hierarchical Notes').setHeading();
-		this.addRootNoteSetting(containerEl);
-		this.addNotesFolderSetting(containerEl);
+		new Setting(containerEl).setName('HIERARCHICAL').setHeading();
+		this.setHierarchicalNoteRoot(containerEl);
+		this.setHierarchicalNotesFolder(containerEl);
+
+		new Setting(containerEl).setName('LISTS').setHeading();
 	}
 
+	private setChronologicalNoteRoot(containerEl: HTMLElement) {
+		new Setting(containerEl)
+			.setName('Root')
+			.setDesc('This is the root to start with chronological notes.')
+			.addSearch((search) => {
+				new FileSuggester(this.app, search.inputEl);
+				search
+					.setPlaceholder(this.plugin.settings.chronologicalNoteRoot)
+					.setValue(this.plugin.settings.chronologicalNoteRoot)
+					.onChange(async (newFile) => {
+						this.plugin.settings.chronologicalNoteRoot = normalizePath(newFile);
+						await this.plugin.saveSettings();
+					});
+				// @ts-ignore
+				search.containerEl.addClass('pol_notes-folder-search');
+			})
+			.addButton((button) => {
+				button
+					.setCta()
+					.setButtonText('Create')
+					.onClick(async () => {
+						await fileCreateFromTemplate(
+							this.app,
+							this.plugin.settings.chronologicalNoteRoot,
+							chronologicalNoteRootTemplate
+						);
+						await fileHighlight(
+							this.app,
+							this.plugin.settings.chronologicalNoteRoot
+						);
+						await fileOpenByPath(this.plugin.settings.chronologicalNoteRoot);
+					});
+			});
+	}
 	private setChronologicalNotesFolder(containerEl: HTMLElement) {
 		new Setting(containerEl)
 			.setName('Folder')
@@ -117,40 +153,6 @@ export class PathOfLifeSettingTab extends PluginSettingTab {
 					});
 			});
 	}
-	private setChronologicalNoteRoot(containerEl: HTMLElement) {
-		new Setting(containerEl)
-			.setName('Root')
-			.setDesc('This is the root to start with chronological notes.')
-			.addSearch((search) => {
-				new FileSuggester(this.app, search.inputEl);
-				search
-					.setPlaceholder(this.plugin.settings.chronologicalNoteRoot)
-					.setValue(this.plugin.settings.chronologicalNoteRoot)
-					.onChange(async (newFile) => {
-						this.plugin.settings.chronologicalNoteRoot = normalizePath(newFile);
-						await this.plugin.saveSettings();
-					});
-				// @ts-ignore
-				search.containerEl.addClass('pol_notes-folder-search');
-			})
-			.addButton((button) => {
-				button
-					.setCta()
-					.setButtonText('Create')
-					.onClick(async () => {
-						await fileCreateFromTemplate(
-							this.app,
-							this.plugin.settings.chronologicalNoteRoot,
-							chronologicalNoteRootTemplate
-						);
-						await fileHighlight(
-							this.app,
-							this.plugin.settings.chronologicalNoteRoot
-						);
-						await fileOpenByPath(this.plugin.settings.chronologicalNoteRoot);
-					});
-			});
-	}
 	private setChronologicalNoteFormat(containerEl: HTMLElement) {
 		new Setting(containerEl)
 			.setName('Format')
@@ -166,9 +168,9 @@ export class PathOfLifeSettingTab extends PluginSettingTab {
 			});
 	}
 
-	private addNotesFolderSetting(containerEl: HTMLElement) {
+	private setHierarchicalNotesFolder(containerEl: HTMLElement) {
 		new Setting(containerEl)
-			.setName('Notes folder')
+			.setName('Folder')
 			.setDesc('All notes as mess will be stored here.')
 			.addSearch((search) => {
 				new FolderSuggest(this.app, search.inputEl);
@@ -192,9 +194,9 @@ export class PathOfLifeSettingTab extends PluginSettingTab {
 					});
 			});
 	}
-	private addRootNoteSetting(containerEl: HTMLElement) {
+	private setHierarchicalNoteRoot(containerEl: HTMLElement) {
 		new Setting(containerEl)
-			.setName('Root note')
+			.setName('Root')
 			.setDesc('This is the root note to start with.')
 			.addSearch((search) => {
 				new FileSuggester(this.app, search.inputEl);

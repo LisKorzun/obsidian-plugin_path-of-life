@@ -24,7 +24,7 @@ export class NoteRootHero implements ViewComponent {
 	}
 	renderTitle() {
 		const title = this.container.createDiv('pol__hero-title');
-		title.innerText = 'NOTES | ЗАМЕТКИ';
+		title.innerText = 'Hierarchical';
 	}
 	async renderContents() {
 		const successors = await fileSuccessorsGet(
