@@ -6,6 +6,7 @@ import { NoteHero } from '../components/NoteHero';
 import { PathOfLifeSettings } from '../../settings/settings';
 import { NoteRootHero } from '../components/NoteRootHero';
 import { ChronologicalNoteRootHero } from '../components';
+import { ChronologicalNotesHero } from '../components/ChronologicalNotesHero';
 
 const HERO_CLS = 'pol__view-hero';
 const READING_VIEW_CLS = 'markdown-reading-view';
@@ -43,6 +44,10 @@ export async function renderViewActions(
 					heroContainer
 				).display();
 			}
+			console.log(file.path);
+			if (file?.path?.startsWith(plugin.settings.chronologicalNotesFolder)) {
+				await new ChronologicalNotesHero(plugin, file, heroContainer).display();
+			}
 			// Hierarchical notes
 			if (file?.path?.startsWith(plugin.settings.notesFolder)) {
 				await new NoteHero(plugin, file, heroContainer).display();
@@ -74,6 +79,7 @@ function checkPaths(file: TFile, settings: PathOfLifeSettings) {
 	return (
 		file?.path?.startsWith(settings.notesFolder) ||
 		file?.path?.startsWith(settings.rootNote) ||
-		file?.path?.startsWith(settings.chronologicalNoteRoot)
+		file?.path?.startsWith(settings.chronologicalNoteRoot) ||
+		file?.path?.startsWith(settings.chronologicalNotesFolder)
 	);
 }
