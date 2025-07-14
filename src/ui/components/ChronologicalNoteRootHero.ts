@@ -29,7 +29,7 @@ export class ChronologicalNoteRootHero implements ViewComponent {
 	}
 
 	renderAddButtons() {
-		const buttonsEl = this.container.createDiv();
+		const buttonsEl = this.container.createDiv('pol__in-row');
 		renderActions(buttonsEl, getAddActions(this.plugin, this.file, this));
 	}
 }

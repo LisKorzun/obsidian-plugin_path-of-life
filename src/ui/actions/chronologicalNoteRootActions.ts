@@ -3,7 +3,11 @@ import { TFile } from 'obsidian';
 import { ViewAction } from './renderActions';
 import { ViewComponent } from '../components';
 import { fileCreateFromTemplate } from '../../utils';
-import { chronologicalNoteExpenseTemplate } from '../templates';
+import {
+	chronologicalNoteExpenseTemplate,
+	chronologicalNoteQuoteTemplate,
+	chronologicalNoteDiaryTemplate,
+} from '../templates';
 
 export const getAddActions: (
 	plugin: PathOfLifePlugin,
@@ -20,16 +24,26 @@ export const getAddActions: (
 			tooltip: 'Add expense',
 			icon: 'lucide-circle-dollar-sign',
 			cls: '',
-			onClick: addExpense(plugin, file, hero),
+			onClick: addChronologicalNote(plugin, chronologicalNoteExpenseTemplate),
+		},
+		{
+			cta: 'Add diary',
+			tooltip: 'Add diary',
+			icon: 'lucide-notebook-pen',
+			cls: '',
+			onClick: addChronologicalNote(plugin, chronologicalNoteDiaryTemplate),
+		},
+		{
+			cta: 'Add quote',
+			tooltip: 'Add quote',
+			icon: 'lucide-quote',
+			cls: '',
+			onClick: addChronologicalNote(plugin, chronologicalNoteQuoteTemplate),
 		},
 	];
 };
 
-function addExpense(
-	plugin: PathOfLifePlugin,
-	file: TFile,
-	hero: ViewComponent
-) {
+function addChronologicalNote(plugin: PathOfLifePlugin, template: string) {
 	return async function () {
 		const now = window.moment();
 		const fileDate = now.format(plugin.settings.chronologicalNoteFormat);
@@ -37,7 +51,7 @@ function addExpense(
 		await fileCreateFromTemplate(
 			plugin.app,
 			`${plugin.settings.chronologicalNotesFolder}/${fileDate}.md`,
-			chronologicalNoteExpenseTemplate,
+			template,
 			{}
 		);
 	};

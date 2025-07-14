@@ -111,6 +111,13 @@
 
 
 
+.pol__in-row {
+	display: flex;
+	gap: var(--size-2-3);
+}
+
+
+
 
 
 

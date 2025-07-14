@@ -35,6 +35,7 @@ export async function renderViewActions(
 			}
 			const heroContainer = document.createElement('div');
 			heroContainer.addClass(HERO_CLS);
+			// Chronological notes
 			if (file?.path?.startsWith(plugin.settings.chronologicalNoteRoot)) {
 				await new ChronologicalNoteRootHero(
 					plugin,
@@ -42,7 +43,7 @@ export async function renderViewActions(
 					heroContainer
 				).display();
 			}
-
+			// Hierarchical notes
 			if (file?.path?.startsWith(plugin.settings.notesFolder)) {
 				await new NoteHero(plugin, file, heroContainer).display();
 			}
