@@ -21,14 +21,15 @@ import {
 } from '../ui/templates';
 
 export interface PathOfLifeSettings {
-	// Hierarchical notes
 	notesFolder: string;
 	rootNote: string;
-	hierarchicalNoteRoot: string;
-	hierarchicalNotesFolder: string;
 	// Chronological notes
 	chronologicalNotesFolder: string;
 	chronologicalNoteRoot: string;
+	chronologicalNoteFormat: string;
+	// Hierarchical notes
+	hierarchicalNoteRoot: string;
+	hierarchicalNotesFolder: string;
 }
 
 export const DEFAULT_SETTINGS: Partial<PathOfLifeSettings> = {
@@ -36,6 +37,7 @@ export const DEFAULT_SETTINGS: Partial<PathOfLifeSettings> = {
 	rootNote: '',
 	chronologicalNotesFolder: 'chaos/chronological',
 	chronologicalNoteRoot: '✧ dashboard/chronology.md',
+	chronologicalNoteFormat: 'YYYY/MM-MMMM/DD-dddd/YYYY-MM-DD HHmmss',
 	hierarchicalNotesFolder: 'chaos/hierarchical',
 	hierarchicalNoteRoot: '✧ dashboard/hierarchy.md',
 };
@@ -53,8 +55,9 @@ export class PathOfLifeSettingTab extends PluginSettingTab {
 		containerEl.empty();
 
 		new Setting(containerEl).setName('Chronological Notes').setHeading();
-		this.setChronologicalNotesFolder(containerEl);
 		this.setChronologicalNoteRoot(containerEl);
+		this.setChronologicalNotesFolder(containerEl);
+		this.setChronologicalNoteFormat(containerEl);
 
 		new Setting(containerEl).setName('Hierarchical Notes').setHeading();
 		this.addRootNoteSetting(containerEl);
@@ -62,7 +65,6 @@ export class PathOfLifeSettingTab extends PluginSettingTab {
 	}
 
 	private setChronologicalNotesFolder(containerEl: HTMLElement) {
-		console.log(this.plugin);
 		new Setting(containerEl)
 			.setName('Folder')
 			.setDesc('The home of all chronological notes')
@@ -124,9 +126,9 @@ export class PathOfLifeSettingTab extends PluginSettingTab {
 				search
 					.setPlaceholder(this.plugin.settings.chronologicalNoteRoot)
 					.setValue(this.plugin.settings.chronologicalNoteRoot)
-					.onChange((newFile) => {
+					.onChange(async (newFile) => {
 						this.plugin.settings.chronologicalNoteRoot = normalizePath(newFile);
-						this.plugin.saveSettings();
+						await this.plugin.saveSettings();
 					});
 				// @ts-ignore
 				search.containerEl.addClass('pol_notes-folder-search');
@@ -146,6 +148,20 @@ export class PathOfLifeSettingTab extends PluginSettingTab {
 							this.plugin.settings.chronologicalNoteRoot
 						);
 						await fileOpenByPath(this.plugin.settings.chronologicalNoteRoot);
+					});
+			});
+	}
+	private setChronologicalNoteFormat(containerEl: HTMLElement) {
+		new Setting(containerEl)
+			.setName('Format')
+			.setDesc('Moment syntax.')
+			.addText((input) => {
+				input
+					.setPlaceholder(this.plugin.settings.chronologicalNoteFormat)
+					.setValue(this.plugin.settings.chronologicalNoteFormat)
+					.onChange(async (newFormat) => {
+						this.plugin.settings.chronologicalNoteFormat = newFormat;
+						await this.plugin.saveSettings();
 					});
 			});
 	}

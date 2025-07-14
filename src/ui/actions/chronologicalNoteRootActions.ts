@@ -5,8 +5,6 @@ import { ViewComponent } from '../components';
 import { fileCreateFromTemplate } from '../../utils';
 import { chronologicalNoteExpenseTemplate } from '../templates';
 
-const NOTE_DATE_FORMAT = 'YYYY/MM-MMMM/DD-dddd/YYYY-MM-DD HHmmss';
-
 export const getAddActions: (
 	plugin: PathOfLifePlugin,
 	file: TFile,
@@ -34,7 +32,7 @@ function addExpense(
 ) {
 	return async function () {
 		const now = window.moment();
-		const fileDate = now.format(NOTE_DATE_FORMAT);
+		const fileDate = now.format(plugin.settings.chronologicalNoteFormat);
 
 		await fileCreateFromTemplate(
 			plugin.app,
