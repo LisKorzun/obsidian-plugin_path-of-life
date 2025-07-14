@@ -2,10 +2,7 @@ import { App, TFile } from 'obsidian';
 
 import PathOfLifePlugin from 'main';
 import { fileLinkRenderer, fileSuccessorsGet } from '../../utils';
-
-interface ViewComponent {
-	display(): void;
-}
+import { ViewComponent } from './index';
 
 export class NoteRootHero implements ViewComponent {
 	app: App;

@@ -1,3 +1,7 @@
-import { HeroChronologicalNoteRoot } from './HeroChronologicalNoteRoot';
+import { ChronologicalNoteRootHero } from './ChronologicalNoteRootHero';
 
-export { HeroChronologicalNoteRoot };
+export interface ViewComponent {
+	display(): void;
+}
+
+export { ChronologicalNoteRootHero };

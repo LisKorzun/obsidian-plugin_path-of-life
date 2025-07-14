@@ -13,14 +13,11 @@ import {
 	fileLinkRenderer,
 	fileSuccessorsGet,
 } from 'utils';
+import { ViewComponent } from './index';
 
 export class TNoteFile extends TFile {
 	sequence: string;
 	predecessor?: string;
-}
-
-interface ViewComponent {
-	display(): void;
 }
 
 export class NoteHero implements ViewComponent {

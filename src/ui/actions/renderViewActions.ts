@@ -5,7 +5,7 @@ import PathOfLifePlugin from 'main';
 import { NoteHero } from '../components/NoteHero';
 import { PathOfLifeSettings } from '../../settings/settings';
 import { NoteRootHero } from '../components/NoteRootHero';
-import { HeroChronologicalNoteRoot } from '../components';
+import { ChronologicalNoteRootHero } from '../components';
 
 const HERO_CLS = 'pol__view-hero';
 const READING_VIEW_CLS = 'markdown-reading-view';
@@ -36,7 +36,7 @@ export async function renderViewActions(
 			const heroContainer = document.createElement('div');
 			heroContainer.addClass(HERO_CLS);
 			if (file?.path?.startsWith(plugin.settings.chronologicalNoteRoot)) {
-				await new HeroChronologicalNoteRoot(
+				await new ChronologicalNoteRootHero(
 					plugin,
 					file,
 					heroContainer
