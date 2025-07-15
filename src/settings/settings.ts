@@ -32,8 +32,8 @@ export interface PathOfLifeSettings {
 	hierarchicalNoteRoot: string;
 	hierarchicalNotesFolder: string;
 	// Lists
-	listsFolder: string;
 	listsRoot: string;
+	listsFolder: string;
 }
 
 export const DEFAULT_SETTINGS: Partial<PathOfLifeSettings> = {

@@ -11,7 +11,7 @@ import {
 	fileOpenByPath,
 } from 'utils';
 import { ViewAction } from './renderActions';
-import { NoteHero } from '../components/NoteHero';
+import { HierarchicalNotesHero } from '../components';
 
 export const getNoteActions: (
 	plugin: PathOfLifePlugin,
@@ -36,8 +36,12 @@ export const getNoteActions: (
 export const getNoteRightActions: (
 	plugin: PathOfLifePlugin,
 	file: TFile,
-	hero: NoteHero
-) => ViewAction[] = (plugin: PathOfLifePlugin, file: TFile, hero: NoteHero) => {
+	hero: HierarchicalNotesHero
+) => ViewAction[] = (
+	plugin: PathOfLifePlugin,
+	file: TFile,
+	hero: HierarchicalNotesHero
+) => {
 	return [
 		{
 			cta: 'Rename note',
@@ -89,7 +93,11 @@ function createChildNote(plugin: PathOfLifePlugin, file: TFile) {
 	};
 }
 
-function renameNote(plugin: PathOfLifePlugin, file: TFile, hero: NoteHero) {
+function renameNote(
+	plugin: PathOfLifePlugin,
+	file: TFile,
+	hero: HierarchicalNotesHero
+) {
 	return async function () {
 		new NoteRename(plugin.app, plugin, file, async (path: string) => {
 			await plugin.app.fileManager.renameFile(file, path);

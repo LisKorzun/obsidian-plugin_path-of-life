@@ -2,11 +2,15 @@ import { App, TFile, MarkdownView } from 'obsidian';
 
 import PathOfLifePlugin from 'main';
 
-import { NoteHero } from '../components/NoteHero';
+import {
+	HierarchicalNotesHero,
+	HierarchicalNoteRootHero,
+	ChronologicalNotesHero,
+	ChronologicalNoteRootHero,
+	ListsNoteRootHero,
+	ListsNotesHero,
+} from '../components';
 import { PathOfLifeSettings } from '../../settings/settings';
-import { NoteRootHero } from '../components/NoteRootHero';
-import { ChronologicalNoteRootHero } from '../components';
-import { ChronologicalNotesHero } from '../components/ChronologicalNotesHero';
 
 const HERO_CLS = 'pol__view-hero';
 const READING_VIEW_CLS = 'markdown-reading-view';
@@ -48,11 +52,22 @@ export async function renderViewActions(
 				await new ChronologicalNotesHero(plugin, file, heroContainer).display();
 			}
 			// Hierarchical notes
-			if (file?.path?.startsWith(plugin.settings.notesFolder)) {
-				await new NoteHero(plugin, file, heroContainer).display();
+			if (file?.path?.startsWith(plugin.settings.hierarchicalNotesFolder)) {
+				await new HierarchicalNotesHero(plugin, file, heroContainer).display();
 			}
-			if (file?.path?.startsWith(plugin.settings.rootNote)) {
-				await new NoteRootHero(plugin, file, heroContainer).display();
+			if (file?.path?.startsWith(plugin.settings.hierarchicalNoteRoot)) {
+				await new HierarchicalNoteRootHero(
+					plugin,
+					file,
+					heroContainer
+				).display();
+			}
+			// Lists
+			if (file?.path?.startsWith(plugin.settings.listsRoot)) {
+				await new ListsNoteRootHero(plugin, file, heroContainer).display();
+			}
+			if (file?.path?.startsWith(plugin.settings.listsFolder)) {
+				await new ListsNotesHero(plugin, file, heroContainer).display();
 			}
 
 			readingViewEl.insertAdjacentElement('afterbegin', heroContainer);
@@ -76,9 +91,11 @@ function findChildByClassName(
 
 function checkPaths(file: TFile, settings: PathOfLifeSettings) {
 	return (
-		file?.path?.startsWith(settings.notesFolder) ||
-		file?.path?.startsWith(settings.rootNote) ||
+		file?.path?.startsWith(settings.hierarchicalNoteRoot) ||
+		file?.path?.startsWith(settings.hierarchicalNotesFolder) ||
 		file?.path?.startsWith(settings.chronologicalNoteRoot) ||
-		file?.path?.startsWith(settings.chronologicalNotesFolder)
+		file?.path?.startsWith(settings.chronologicalNotesFolder) ||
+		file?.path?.startsWith(settings.listsRoot) ||
+		file?.path?.startsWith(settings.listsFolder)
 	);
 }

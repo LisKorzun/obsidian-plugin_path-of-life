@@ -15,12 +15,7 @@ import {
 } from 'utils';
 import { ViewComponent } from './index';
 
-export class TNoteFile extends TFile {
-	sequence: string;
-	predecessor?: string;
-}
-
-export class NoteHero implements ViewComponent {
+export class HierarchicalNotesHero implements ViewComponent {
 	app: App;
 	plugin: PathOfLifePlugin;
 	file: TFile;

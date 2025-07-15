@@ -1,6 +1,6 @@
 import { TFile } from 'obsidian';
 
-import { TNoteFile } from 'ui/components/NoteHero';
+import { THierarchicalNoteFile } from 'ui/components';
 
 export function propertyAsFileLink(file: TFile) {
 	return `${file.path}|${file.name}`;
@@ -11,7 +11,10 @@ export function propertyAsFileLink(file: TFile) {
  * @param a - Note file with frontmatter
  * @param b - Note file with frontmatter
  */
-export function compareFileSequence(a: TNoteFile, b: TNoteFile) {
+export function compareFileSequence(
+	a: THierarchicalNoteFile,
+	b: THierarchicalNoteFile
+) {
 	return a.sequence.localeCompare(b.sequence, undefined, {
 		numeric: true,
 		sensitivity: 'base',

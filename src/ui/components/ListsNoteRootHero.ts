@@ -1,10 +1,10 @@
 import { App, TFile } from 'obsidian';
 
 import PathOfLifePlugin from 'main';
-import { fileLinkRenderer, fileSuccessorsGet } from '../../utils';
+import { renderActions } from '../actions/renderActions';
 import { ViewComponent } from './index';
 
-export class NoteRootHero implements ViewComponent {
+export class ListsNoteRootHero implements ViewComponent {
 	app: App;
 	plugin: PathOfLifePlugin;
 	file: TFile;
@@ -20,21 +20,15 @@ export class NoteRootHero implements ViewComponent {
 	async display() {
 		this.container.innerHTML = '';
 		this.renderTitle();
-		await this.renderContents();
+		this.renderAddButtons();
 	}
 	renderTitle() {
 		const title = this.container.createDiv('pol__hero-title');
-		title.innerText = 'Hierarchical';
+		title.innerText = 'Lists';
 	}
-	async renderContents() {
-		const successors = await fileSuccessorsGet(
-			this.app,
-			this.file.basename,
-			this.plugin.settings.notesFolder,
-			true
-		);
-		const details = this.container.createDiv();
-		const contents = details.createDiv('pol__hero-root-list');
-		successors.forEach((file) => fileLinkRenderer(contents, file));
+
+	renderAddButtons() {
+		// const buttonsEl = this.container.createDiv('pol__in-row');
+		// renderActions(buttonsEl, getAddActions(this.plugin, this.file, this));
 	}
 }
