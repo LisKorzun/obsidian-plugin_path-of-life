@@ -44,7 +44,6 @@ export async function renderViewActions(
 					heroContainer
 				).display();
 			}
-			console.log(file.path);
 			if (file?.path?.startsWith(plugin.settings.chronologicalNotesFolder)) {
 				await new ChronologicalNotesHero(plugin, file, heroContainer).display();
 			}

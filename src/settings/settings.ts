@@ -16,8 +16,9 @@ import {
 	folderHighlight,
 } from '../utils';
 import {
-	noteRootTemplate,
+	hierarchicalNoteRootTemplate,
 	chronologicalNoteRootTemplate,
+	listsRootTemplate,
 } from '../ui/templates';
 
 export interface PathOfLifeSettings {
@@ -30,6 +31,9 @@ export interface PathOfLifeSettings {
 	// Hierarchical notes
 	hierarchicalNoteRoot: string;
 	hierarchicalNotesFolder: string;
+	// Lists
+	listsFolder: string;
+	listsRoot: string;
 }
 
 export const DEFAULT_SETTINGS: Partial<PathOfLifeSettings> = {
@@ -40,6 +44,8 @@ export const DEFAULT_SETTINGS: Partial<PathOfLifeSettings> = {
 	chronologicalNoteFormat: 'YYYY/MM-MMMM/DD-dddd/YYYY-MM-DD HHmmss',
 	hierarchicalNotesFolder: 'chaos/hierarchical',
 	hierarchicalNoteRoot: '✧ dashboard/hierarchy.md',
+	listsFolder: 'chaos/lists',
+	listsRoot: '✧ dashboard/lists.md',
 };
 
 export class PathOfLifeSettingTab extends PluginSettingTab {
@@ -55,28 +61,35 @@ export class PathOfLifeSettingTab extends PluginSettingTab {
 		containerEl.empty();
 
 		new Setting(containerEl).setName('CHRONOLOGICAL').setHeading();
-		this.setChronologicalNoteRoot(containerEl);
-		this.setChronologicalNotesFolder(containerEl);
-		this.setChronologicalNoteFormat(containerEl);
+		this.setRootNote('chronologicalNoteRoot', chronologicalNoteRootTemplate);
+		this.setNotesFolder('chronologicalNotesFolder');
+		this.setNoteFormat('chronologicalNoteFormat');
 
 		new Setting(containerEl).setName('HIERARCHICAL').setHeading();
-		this.setHierarchicalNoteRoot(containerEl);
-		this.setHierarchicalNotesFolder(containerEl);
+		this.setRootNote('hierarchicalNoteRoot', hierarchicalNoteRootTemplate);
+		this.setNotesFolder('notesFolder');
 
 		new Setting(containerEl).setName('LISTS').setHeading();
+		this.setRootNote('listsRoot', listsRootTemplate);
+		this.setNotesFolder('listsFolder');
 	}
 
-	private setChronologicalNoteRoot(containerEl: HTMLElement) {
-		new Setting(containerEl)
-			.setName('Root')
-			.setDesc('This is the root to start with chronological notes.')
+	private setRootNote(
+		key: keyof PathOfLifeSettings,
+		template: string,
+		name: string = 'Root',
+		description: string = 'This is the root note to start with.'
+	) {
+		new Setting(this.containerEl)
+			.setName(name)
+			.setDesc(description)
 			.addSearch((search) => {
 				new FileSuggester(this.app, search.inputEl);
 				search
-					.setPlaceholder(this.plugin.settings.chronologicalNoteRoot)
-					.setValue(this.plugin.settings.chronologicalNoteRoot)
+					.setPlaceholder(this.plugin.settings[key])
+					.setValue(this.plugin.settings[key])
 					.onChange(async (newFile) => {
-						this.plugin.settings.chronologicalNoteRoot = normalizePath(newFile);
+						this.plugin.settings[key] = normalizePath(newFile);
 						await this.plugin.saveSettings();
 					});
 				// @ts-ignore
@@ -89,35 +102,28 @@ export class PathOfLifeSettingTab extends PluginSettingTab {
 					.onClick(async () => {
 						await fileCreateFromTemplate(
 							this.app,
-							this.plugin.settings.chronologicalNoteRoot,
-							chronologicalNoteRootTemplate
+							this.plugin.settings[key],
+							template
 						);
-						await fileHighlight(
-							this.app,
-							this.plugin.settings.chronologicalNoteRoot
-						);
-						await fileOpenByPath(this.plugin.settings.chronologicalNoteRoot);
+						await fileHighlight(this.app, this.plugin.settings[key]);
+						await fileOpenByPath(this.plugin.settings[key]);
 					});
 			});
 	}
-	private setChronologicalNotesFolder(containerEl: HTMLElement) {
-		new Setting(containerEl)
-			.setName('Folder')
-			.setDesc('The home of all chronological notes')
+	private setNotesFolder(
+		key: keyof PathOfLifeSettings,
+		name: string = 'Folder',
+		description: string = 'All notes will be stored here.'
+	) {
+		new Setting(this.containerEl)
+			.setName(name)
+			.setDesc(description)
 			.addButton((button) => {
 				button.setIcon('rotate-ccw').onClick(async () => {
-					if (DEFAULT_SETTINGS.chronologicalNotesFolder) {
-						await folderCreate(
-							this.app,
-							DEFAULT_SETTINGS.chronologicalNotesFolder
-						);
-						await folderHighlight(
-							this.app,
-							DEFAULT_SETTINGS.chronologicalNotesFolder
-						);
-						this.plugin.settings.chronologicalNotesFolder = normalizePath(
-							DEFAULT_SETTINGS.chronologicalNotesFolder
-						);
+					if (DEFAULT_SETTINGS[key]) {
+						await folderCreate(this.app, DEFAULT_SETTINGS[key]);
+						await folderHighlight(this.app, DEFAULT_SETTINGS[key]);
+						this.plugin.settings[key] = normalizePath(DEFAULT_SETTINGS[key]);
 						await this.plugin.saveSettings();
 						// TODO: update settings view or this input/search
 					}
@@ -126,11 +132,10 @@ export class PathOfLifeSettingTab extends PluginSettingTab {
 			.addSearch((search: SearchComponent) => {
 				new FolderSuggest(this.app, search.inputEl);
 				search
-					.setPlaceholder(this.plugin.settings.chronologicalNotesFolder)
-					.setValue(this.plugin.settings.chronologicalNotesFolder)
+					.setPlaceholder(this.plugin.settings[key])
+					.setValue(this.plugin.settings[key])
 					.onChange((newFolder) => {
-						this.plugin.settings.chronologicalNotesFolder =
-							normalizePath(newFolder);
+						this.plugin.settings[key] = normalizePath(newFolder);
 						this.plugin.saveSettings();
 						// TODO: add reaction of saving
 					});
@@ -142,86 +147,26 @@ export class PathOfLifeSettingTab extends PluginSettingTab {
 					.setCta()
 					.setButtonText('Create')
 					.onClick(async () => {
-						await folderCreate(
-							this.app,
-							this.plugin.settings.chronologicalNotesFolder
-						);
-						await folderHighlight(
-							this.app,
-							this.plugin.settings.chronologicalNotesFolder
-						);
+						await folderCreate(this.app, this.plugin.settings[key]);
+						await folderHighlight(this.app, this.plugin.settings[key]);
 					});
 			});
 	}
-	private setChronologicalNoteFormat(containerEl: HTMLElement) {
-		new Setting(containerEl)
-			.setName('Format')
-			.setDesc('Moment syntax.')
+	private setNoteFormat(
+		key: keyof PathOfLifeSettings,
+		name: string = 'Format',
+		description: string = 'Moment syntax.'
+	) {
+		new Setting(this.containerEl)
+			.setName(name)
+			.setDesc(description)
 			.addText((input) => {
 				input
-					.setPlaceholder(this.plugin.settings.chronologicalNoteFormat)
-					.setValue(this.plugin.settings.chronologicalNoteFormat)
+					.setPlaceholder(this.plugin.settings[key])
+					.setValue(this.plugin.settings[key])
 					.onChange(async (newFormat) => {
-						this.plugin.settings.chronologicalNoteFormat = newFormat;
+						this.plugin.settings[key] = newFormat;
 						await this.plugin.saveSettings();
-					});
-			});
-	}
-
-	private setHierarchicalNotesFolder(containerEl: HTMLElement) {
-		new Setting(containerEl)
-			.setName('Folder')
-			.setDesc('All notes as mess will be stored here.')
-			.addSearch((search) => {
-				new FolderSuggest(this.app, search.inputEl);
-				search
-					.setPlaceholder('data/notes/mess')
-					.setValue(this.plugin.settings.notesFolder)
-					.onChange((newFolder) => {
-						this.plugin.settings.notesFolder = normalizePath(newFolder);
-						this.plugin.saveSettings();
-					});
-				// @ts-ignore
-				search.containerEl.addClass('pol_notes-folder-search');
-			})
-			.addButton((button) => {
-				button
-					.setCta()
-					.setButtonText('Create')
-					.onClick(async () => {
-						await folderCreate(this.app, this.plugin.settings.notesFolder);
-						await folderHighlight(this.app, this.plugin.settings.notesFolder);
-					});
-			});
-	}
-	private setHierarchicalNoteRoot(containerEl: HTMLElement) {
-		new Setting(containerEl)
-			.setName('Root')
-			.setDesc('This is the root note to start with.')
-			.addSearch((search) => {
-				new FileSuggester(this.app, search.inputEl);
-				search
-					.setPlaceholder('dashboard/notes.md')
-					.setValue(this.plugin.settings.rootNote)
-					.onChange((newFile) => {
-						this.plugin.settings.rootNote = normalizePath(newFile);
-						this.plugin.saveSettings();
-					});
-				// @ts-ignore
-				search.containerEl.addClass('pol_notes-folder-search');
-			})
-			.addButton((button) => {
-				button
-					.setCta()
-					.setButtonText('Create')
-					.onClick(async () => {
-						await fileCreateFromTemplate(
-							this.app,
-							this.plugin.settings.rootNote,
-							noteRootTemplate
-						);
-						await fileHighlight(this.app, this.plugin.settings.rootNote);
-						await fileOpenByPath(this.plugin.settings.rootNote);
 					});
 			});
 	}

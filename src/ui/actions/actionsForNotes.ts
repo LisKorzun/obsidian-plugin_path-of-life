@@ -1,7 +1,7 @@
 import { TFile } from 'obsidian';
 
 import PathOfLifePlugin from 'main';
-import { noteRootTemplate, noteChildTemplate } from 'ui/templates';
+import { hierarchicalNoteRootTemplate, noteChildTemplate } from 'ui/templates';
 import { NoteRoot, NoteChild, NoteRename } from 'ui/modals';
 import {
 	fileCreateFromTemplate,
@@ -64,7 +64,12 @@ function createRootNote(plugin: PathOfLifePlugin) {
 			const data = {
 				sequence: '1',
 			};
-			await fileCreateFromTemplate(plugin.app, path, noteRootTemplate, data);
+			await fileCreateFromTemplate(
+				plugin.app,
+				path,
+				hierarchicalNoteRootTemplate,
+				data
+			);
 			await fileHighlight(plugin.app, path);
 		}).open();
 	};
