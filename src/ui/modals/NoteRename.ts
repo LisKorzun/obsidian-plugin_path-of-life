@@ -34,7 +34,7 @@ export class NoteRename extends Modal {
 		);
 		const inputEl = new Setting(contentEl).addText((input) => {
 			input.setValue(file.basename).onChange(async (newName) => {
-				path = `${plugin.settings.notesFolder}/${newName}.md`;
+				path = `${plugin.settings.hierarchicalNotesFolder}/${newName}.md`;
 				exists = await fileExists(app, path);
 			});
 			input.inputEl.select();

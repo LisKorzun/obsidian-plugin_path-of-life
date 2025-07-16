@@ -59,7 +59,7 @@ export class HierarchicalNotesHero implements ViewComponent {
 		const successors = await fileSuccessorsGet(
 			this.app,
 			this.file.basename,
-			this.plugin.settings.notesFolder
+			this.plugin.settings.hierarchicalNotesFolder
 		);
 
 		const details = this.container.createDiv('pol__hero-details');

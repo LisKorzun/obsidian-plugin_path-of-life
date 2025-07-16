@@ -22,8 +22,6 @@ import {
 } from '../ui/templates';
 
 export interface PathOfLifeSettings {
-	notesFolder: string;
-	rootNote: string;
 	// Chronological notes
 	chronologicalNotesFolder: string;
 	chronologicalNoteRoot: string;
@@ -37,8 +35,6 @@ export interface PathOfLifeSettings {
 }
 
 export const DEFAULT_SETTINGS: Partial<PathOfLifeSettings> = {
-	notesFolder: '',
-	rootNote: '',
 	chronologicalNotesFolder: 'chaos/chronological',
 	chronologicalNoteRoot: '✧ dashboard/chronology.md',
 	chronologicalNoteFormat: 'YYYY/MM-MMMM/DD-dddd/YYYY-MM-DD HHmmss',
@@ -67,7 +63,7 @@ export class PathOfLifeSettingTab extends PluginSettingTab {
 
 		new Setting(containerEl).setName('HIERARCHICAL').setHeading();
 		this.setRootNote('hierarchicalNoteRoot', hierarchicalNoteRootTemplate);
-		this.setNotesFolder('notesFolder');
+		this.setNotesFolder('hierarchicalNotesFolder');
 
 		new Setting(containerEl).setName('LISTS').setHeading();
 		this.setRootNote('listsRoot', listsRootTemplate);

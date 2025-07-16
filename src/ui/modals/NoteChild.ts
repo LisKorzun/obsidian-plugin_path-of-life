@@ -35,7 +35,7 @@ export class NoteChild extends Modal {
 			input
 				.setPlaceholder('Type the root file name')
 				.onChange(async (newName) => {
-					path = `${plugin.settings.notesFolder}/${newName}.md`;
+					path = `${plugin.settings.hierarchicalNotesFolder}/${newName}.md`;
 					exists = await fileExists(app, path);
 				});
 			input.inputEl.addClass('templater_search');

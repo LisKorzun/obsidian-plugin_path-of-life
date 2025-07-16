@@ -30,7 +30,7 @@ export class HierarchicalNoteRootHero implements ViewComponent {
 		const successors = await fileSuccessorsGet(
 			this.app,
 			this.file.basename,
-			this.plugin.settings.notesFolder,
+			this.plugin.settings.hierarchicalNotesFolder,
 			true
 		);
 		const details = this.container.createDiv();

@@ -35,7 +35,7 @@ export class NoteRoot extends Modal {
 			input
 				.setPlaceholder('Type the root file name')
 				.onChange(async (newName) => {
-					const newPath = `${plugin.settings.notesFolder}/${newName}.md`;
+					const newPath = `${plugin.settings.hierarchicalNotesFolder}/${newName}.md`;
 					path = newPath;
 					exists = await fileExists(app, newPath);
 					console.log(exists, newPath);
