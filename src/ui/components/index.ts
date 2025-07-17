@@ -4,16 +4,8 @@ import { HierarchicalNoteRootHero } from './HierarchicalNoteRootHero';
 import { HierarchicalNotesHero } from './HierarchicalNotesHero';
 import { ListsNoteRootHero } from './ListsNoteRootHero';
 import { ListsNotesHero } from './ListsNotesHero';
-import { TFile } from 'obsidian';
-
-export interface ViewComponent {
-	display(): void;
-}
-
-export class THierarchicalNoteFile extends TFile {
-	sequence: string;
-	predecessor?: string;
-}
+import { ListOfBooks } from './ListOfBooks';
+import { HeroTabs } from './HeroTabs';
 
 export {
 	ChronologicalNoteRootHero,
@@ -21,5 +13,7 @@ export {
 	HierarchicalNoteRootHero,
 	HierarchicalNotesHero,
 	ListsNoteRootHero,
+	ListOfBooks,
 	ListsNotesHero,
+	HeroTabs,
 };

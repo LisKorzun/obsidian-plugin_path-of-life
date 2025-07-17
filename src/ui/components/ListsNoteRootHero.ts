@@ -1,8 +1,8 @@
 import { App, TFile } from 'obsidian';
 
 import PathOfLifePlugin from 'main';
-import { renderActions } from '../actions/renderActions';
-import { ViewComponent } from './index';
+import { HeroTabs, ListOfBooks } from './index';
+import { THeroTab, ViewComponent } from './types';
 
 export class ListsNoteRootHero implements ViewComponent {
 	app: App;
@@ -28,7 +28,27 @@ export class ListsNoteRootHero implements ViewComponent {
 	}
 
 	renderAddButtons() {
-		// const buttonsEl = this.container.createDiv('pol__in-row');
-		// renderActions(buttonsEl, getAddActions(this.plugin, this.file, this));
+		const tabsEl = this.container.createDiv();
+		new HeroTabs(tabsEl, getTabsOfLists()).display();
 	}
+}
+
+function getTabsOfLists(): THeroTab[] {
+	return [
+		{
+			label: 'Books',
+			icon: 'library-big',
+			content: new ListOfBooks(),
+		},
+		{
+			label: 'Keywords',
+			icon: 'key-square',
+			content: new ListOfBooks(),
+		},
+		{
+			label: 'Persons',
+			icon: 'user',
+			content: new ListOfBooks(),
+		},
+	];
 }

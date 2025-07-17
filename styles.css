@@ -1,7 +1,9 @@
 /* COMMON ===================== */
 .pol__view-hero {
 	width: 100%;
-	padding-left: calc(var(--size-4-3) + var(--size-2-3)); /* the same as for back-button*/
+	padding-left: calc(
+		var(--size-4-3) + var(--size-2-3)
+	); /* the same as for back-button*/
 	padding-right: calc(var(--size-4-3)); /* the same as for */
 	--icon-size: var(--icon-s);
 	-webkit-box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2);
@@ -14,7 +16,6 @@
 	justify-content: space-between;
 	padding-top: var(--size-4-3);
 	padding-bottom: var(--size-4-3);
-
 }
 .pol__hero-header {
 	font-size: var(--font-smallest);
@@ -27,7 +28,6 @@
 	justify-content: flex-end;
 }
 .pol__hero-breadcrumbs {
-
 }
 .pol__hero-title {
 	font-size: 1.5rem;
@@ -42,8 +42,8 @@
 	grid-template-columns: auto 1fr;
 	grid-template-rows: auto auto;
 	grid-template-areas:
-    "button actions"
-    "contents contents";
+		'button actions'
+		'contents contents';
 	gap: 20px;
 }
 .pol__hero-actions {
@@ -66,7 +66,7 @@
 	width: fit-content;
 	position: relative;
 }
-.pol__hero-contents-cta input{
+.pol__hero-contents-cta input {
 	position: absolute;
 	opacity: 0;
 	z-index: -1;
@@ -77,7 +77,7 @@
 	gap: var(--size-4-2);
 }
 .pol__hero-contents-cta label::after {
-	content: "\276F";
+	content: '\276F';
 	width: 1em;
 	height: 1em;
 	text-align: center;
@@ -109,53 +109,63 @@
 	display: block;
 }
 
-
-
 .pol__in-row {
 	display: flex;
 	gap: var(--size-2-3);
 }
 
+/* HERO TABS: UIComponent */
 
-
-
-
-
-
-
-/* Backgrounds */
-
-.pol__bg-disco {
-	background: #4ECDC4;  /* fallback for old browsers */
-	background: -webkit-linear-gradient(311deg, #556270, #4ECDC4);  /* Chrome 10-25, Safari 5.1-6 */
-	background: linear-gradient(311deg, #556270, #4ECDC4); /* W3C, IE 10+/Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+.pol__hero-tabs {
+	--tab-spacing: 1rem 1rem 1rem 0;
+}
+.pol__hero-tabs nav {
+	border-bottom: var(--tab-outline-width) solid var(--tab-outline-color);
+	display: flex;
+}
+.pol__hero-tabs [data-tab] {
+	display: none;
+}
+.pol__hero-tabs [data-tab-label] {
+	display: flex;
+	align-items: center;
+	gap: var(--size-2-3);
+	padding: var(--tab-spacing, 0);
+	cursor: pointer;
+	position: relative;
+	bottom: -1px;
+	border-bottom-width: var(--tab-outline-width, 0);
+	border-bottom-style: solid;
+	border-bottom-color: transparent;
+}
+.pol__hero-tabs [data-tab-label]:hover {
+	border-bottom-color: var(--tab-border-bottom-color);
+}
+.pol__hero-tabs [data-tab-panel] {
+	opacity: 0;
+	background-color: var(--tab-panel-background);
+	transition: opacity .3s ease-in-out;
+	visibility: hidden;
+	height: 0;
+	position: relative;
+	z-index: 1;
 }
 
-.pol__bg-dania {
-	background: #BE93C5;  /* fallback for old browsers */
-	background: -webkit-linear-gradient(to right, #7BC6CC, #BE93C5);  /* Chrome 10-25, Safari 5.1-6 */
-	background: linear-gradient(to right, #7BC6CC, #BE93C5); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
+/* Tab Label Active State */
+.pol__hero-tabs nav [data-tab="tab1"]:checked ~ [data-tab-label="tab1"],
+.pol__hero-tabs nav [data-tab="tab2"]:checked ~ [data-tab-label="tab2"],
+.pol__hero-tabs nav [data-tab="tab3"]:checked ~ [data-tab-label="tab3"] {
+	border-bottom-color: var(--interactive-accent);
+	z-index: 10;
 }
 
-.pol__bg-frost {
-	background: #000428;  /* fallback for old browsers */
-	background: -webkit-linear-gradient(134deg, #004e92, #000428);  /* Chrome 10-25, Safari 5.1-6 */
-	background: linear-gradient(134deg, #004e92, #000428); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
+/* Tab Panel Active State */
+nav:has([data-tab="tab1"]:checked) ~  [data-tab-panel="tab1"],
+nav:has([data-tab="tab2"]:checked) ~ [data-tab-panel="tab2"],
+nav:has([data-tab="tab3"]:checked) ~ [data-tab-panel="tab3"] {
+	opacity: 1;
+	visibility: visible;
+	padding: var(--tab-spacing);
+	width: 100%;
+	height: auto;
 }
-
-.pol__bg-deep-sea-space {
-	background: #2C3E50;  /* fallback for old browsers */
-	background: -webkit-linear-gradient(127deg, #4CA1AF, #2C3E50);  /* Chrome 10-25, Safari 5.1-6 */
-	background: linear-gradient(127deg, #4CA1AF, #2C3E50); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
-}
-.pol__bg-dark-sky {
-	background: #4B79A1;  /* fallback for old browsers */
-	background: -webkit-linear-gradient(to left, #283E51, #4B79A1);  /* Chrome 10-25, Safari 5.1-6 */
-	background: linear-gradient(to left, #283E51, #4B79A1); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
-}
-
-
