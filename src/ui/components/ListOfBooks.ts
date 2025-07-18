@@ -1,4 +1,5 @@
 import { IHeroTabPanel } from './types';
+import { renderActions, ViewAction } from '../actions/renderActions';
 
 export class ListOfBooks implements IHeroTabPanel {
 	container: HTMLElement;
@@ -6,6 +7,20 @@ export class ListOfBooks implements IHeroTabPanel {
 	display(container: HTMLElement) {
 		this.container = container;
 		this.container.className = 'pol__hero-tab-list-of-books';
-		this.container.innerHTML = 'Some text';
+		renderActions(this.container, getListOfBooksActions());
 	}
+}
+
+function getListOfBooksActions(): ViewAction[] {
+	return [
+		{
+			cta: 'Add book',
+			tooltip: 'Add book',
+			icon: 'circle-plus',
+			cls: '',
+			onClick: () => {
+				console.log('Add book clicked');
+			},
+		},
+	];
 }

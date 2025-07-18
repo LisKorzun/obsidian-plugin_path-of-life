@@ -1,7 +1,7 @@
 import PathOfLifePlugin from '../../main';
 import { TFile } from 'obsidian';
 import { ViewAction } from './renderActions';
-import { ViewComponent } from '../components';
+import { ViewComponent } from '../components/types';
 import { fileCreateFromTemplate } from '../../utils';
 import {
 	chronologicalNoteExpenseTemplate,

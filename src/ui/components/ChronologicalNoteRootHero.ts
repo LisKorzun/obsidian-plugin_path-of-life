@@ -3,7 +3,7 @@ import { App, TFile } from 'obsidian';
 import PathOfLifePlugin from 'main';
 import { renderActions } from '../actions/renderActions';
 import { getAddActions } from '../actions/chronologicalNoteRootActions';
-import { ViewComponent } from './index';
+import { ViewComponent } from './types';
 
 export class ChronologicalNoteRootHero implements ViewComponent {
 	app: App;
