@@ -1,4 +1,5 @@
 import { TPathOfLifeSettings } from './types';
+import { LIST_TYPES } from './listTypesSetting';
 
 export const DEFAULT_SETTINGS: Partial<TPathOfLifeSettings> = {
 	chronologicalNotesFolder: 'chaos/chronological',
@@ -8,4 +9,5 @@ export const DEFAULT_SETTINGS: Partial<TPathOfLifeSettings> = {
 	hierarchicalNoteRoot: '✧ dashboard/hierarchy.md',
 	listsFolder: 'chaos/lists',
 	listsRoot: '✧ dashboard/lists.md',
+	listTypes: LIST_TYPES,
 };

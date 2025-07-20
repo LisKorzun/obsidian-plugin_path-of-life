@@ -2,6 +2,7 @@ import {
 	App,
 	ButtonComponent,
 	ExtraButtonComponent,
+	getIcon,
 	normalizePath,
 	PluginSettingTab,
 	SearchComponent,
@@ -24,7 +25,7 @@ import {
 } from '../ui/templates';
 import { DEFAULT_SETTINGS } from './defaultSettings';
 import { LIST_TYPES } from './listTypesSetting';
-import { TPathOfLifeSettings } from './types';
+import { TPathOfLifeSettingsStringsOnly } from './types';
 
 export class PathOfLifeSettingTab extends PluginSettingTab {
 	plugin: PathOfLifePlugin;
@@ -92,7 +93,7 @@ export class PathOfLifeSettingTab extends PluginSettingTab {
 	}
 
 	private setRootNote(
-		key: keyof TPathOfLifeSettings,
+		key: TPathOfLifeSettingsStringsOnly,
 		template: string,
 		name: string = 'Root',
 		description: string = 'This is the root note to start with.'
@@ -128,7 +129,7 @@ export class PathOfLifeSettingTab extends PluginSettingTab {
 			});
 	}
 	private setNotesFolder(
-		key: keyof TPathOfLifeSettings,
+		key: TPathOfLifeSettingsStringsOnly,
 		name: string = 'Folder',
 		description: string = 'All notes will be stored here.'
 	) {
@@ -170,7 +171,7 @@ export class PathOfLifeSettingTab extends PluginSettingTab {
 			});
 	}
 	private setNoteFormat(
-		key: keyof TPathOfLifeSettings,
+		key: TPathOfLifeSettingsStringsOnly,
 		name: string = 'Format',
 		description: string = 'Moment syntax.'
 	) {

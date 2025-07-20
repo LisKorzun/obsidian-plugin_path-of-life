@@ -1,3 +1,5 @@
+import { IHeroTabPanel } from '../ui/components/types';
+
 export type TPathOfLifeSettings = {
 	// Chronological notes
 	chronologicalNotesFolder: string;
@@ -9,10 +11,18 @@ export type TPathOfLifeSettings = {
 	// Lists
 	listsRoot: string;
 	listsFolder: string;
+	listTypes: TListType[];
 };
+
+export type TPathOfLifeSettingsStringsOnly = Exclude<
+	keyof TPathOfLifeSettings,
+	'listTypes'
+>;
 
 export type TListType = {
 	id: string;
 	name: string;
+	icon: string;
 	order: number;
+	content?: IHeroTabPanel;
 };
