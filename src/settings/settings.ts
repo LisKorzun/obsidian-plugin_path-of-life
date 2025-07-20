@@ -1,5 +1,7 @@
 import {
 	App,
+	ButtonComponent,
+	ExtraButtonComponent,
 	normalizePath,
 	PluginSettingTab,
 	SearchComponent,
@@ -20,29 +22,9 @@ import {
 	chronologicalNoteRootTemplate,
 	listsRootTemplate,
 } from '../ui/templates';
-
-export interface PathOfLifeSettings {
-	// Chronological notes
-	chronologicalNotesFolder: string;
-	chronologicalNoteRoot: string;
-	chronologicalNoteFormat: string;
-	// Hierarchical notes
-	hierarchicalNoteRoot: string;
-	hierarchicalNotesFolder: string;
-	// Lists
-	listsRoot: string;
-	listsFolder: string;
-}
-
-export const DEFAULT_SETTINGS: Partial<PathOfLifeSettings> = {
-	chronologicalNotesFolder: 'chaos/chronological',
-	chronologicalNoteRoot: '✧ dashboard/chronology.md',
-	chronologicalNoteFormat: 'YYYY/MM-MMMM/DD-dddd/YYYY-MM-DD HHmmss',
-	hierarchicalNotesFolder: 'chaos/hierarchical',
-	hierarchicalNoteRoot: '✧ dashboard/hierarchy.md',
-	listsFolder: 'chaos/lists',
-	listsRoot: '✧ dashboard/lists.md',
-};
+import { DEFAULT_SETTINGS } from './defaultSettings';
+import { LIST_TYPES } from './listTypesSetting';
+import { TPathOfLifeSettings } from './types';
 
 export class PathOfLifeSettingTab extends PluginSettingTab {
 	plugin: PathOfLifePlugin;
@@ -68,10 +50,49 @@ export class PathOfLifeSettingTab extends PluginSettingTab {
 		new Setting(containerEl).setName('LISTS').setHeading();
 		this.setRootNote('listsRoot', listsRootTemplate);
 		this.setNotesFolder('listsFolder');
+		new Setting(containerEl).setName('Types');
+		this.setListsTypes();
+	}
+
+	private setListsTypes() {
+		LIST_TYPES.forEach((type) => {
+			new Setting(this.containerEl)
+				.setDesc(type.name)
+				.addExtraButton((button: ExtraButtonComponent) => {
+					button
+						.setIcon('pen-line')
+						.setTooltip('Edit list type')
+						.onClick(() => {});
+				})
+				.addExtraButton((button: ExtraButtonComponent) => {
+					button
+						.setIcon('arrow-big-up')
+						.setTooltip('Move type up')
+						.onClick(() => {});
+				})
+				.addExtraButton((button: ExtraButtonComponent) => {
+					button
+						.setIcon('arrow-big-down')
+						.setTooltip('Move type down')
+						.onClick(() => {});
+				})
+				.addExtraButton((button: ExtraButtonComponent) => {
+					button
+						.setIcon('cross')
+						.setTooltip('Delete list type')
+						.onClick(() => {});
+				});
+		});
+		new Setting(this.containerEl).addButton((button: ButtonComponent) => {
+			button
+				.setButtonText('Add new list type')
+				.setCta()
+				.onClick(() => {});
+		});
 	}
 
 	private setRootNote(
-		key: keyof PathOfLifeSettings,
+		key: keyof TPathOfLifeSettings,
 		template: string,
 		name: string = 'Root',
 		description: string = 'This is the root note to start with.'
@@ -107,14 +128,14 @@ export class PathOfLifeSettingTab extends PluginSettingTab {
 			});
 	}
 	private setNotesFolder(
-		key: keyof PathOfLifeSettings,
+		key: keyof TPathOfLifeSettings,
 		name: string = 'Folder',
 		description: string = 'All notes will be stored here.'
 	) {
 		new Setting(this.containerEl)
 			.setName(name)
 			.setDesc(description)
-			.addButton((button) => {
+			.addButton((button: ButtonComponent) => {
 				button.setIcon('rotate-ccw').onClick(async () => {
 					if (DEFAULT_SETTINGS[key]) {
 						await folderCreate(this.app, DEFAULT_SETTINGS[key]);
@@ -149,7 +170,7 @@ export class PathOfLifeSettingTab extends PluginSettingTab {
 			});
 	}
 	private setNoteFormat(
-		key: keyof PathOfLifeSettings,
+		key: keyof TPathOfLifeSettings,
 		name: string = 'Format',
 		description: string = 'Moment syntax.'
 	) {

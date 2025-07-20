@@ -1,14 +1,12 @@
 import { Plugin, TFile } from 'obsidian';
 
-import {
-	DEFAULT_SETTINGS,
-	PathOfLifeSettings,
-	PathOfLifeSettingTab,
-} from './settings/settings';
+import { PathOfLifeSettingTab } from './settings/settings';
 import { renderViewActions } from './ui/actions/renderViewActions';
+import { DEFAULT_SETTINGS } from './settings/defaultSettings';
+import { TPathOfLifeSettings } from './settings/types';
 
 export default class PathOfLifePlugin extends Plugin {
-	settings: PathOfLifeSettings;
+	settings: TPathOfLifeSettings;
 
 	async onload() {
 		await this.loadSettings();
