@@ -1,5 +1,4 @@
 import { App, TFolder } from 'obsidian';
-import { DEFAULT_SETTINGS } from '../settings/settings';
 
 /**
  * Creates a folder by specific path.

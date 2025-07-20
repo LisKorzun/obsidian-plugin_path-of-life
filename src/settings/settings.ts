@@ -26,6 +26,7 @@ import {
 import { DEFAULT_SETTINGS } from './defaultSettings';
 import { LIST_TYPES } from './listTypesSetting';
 import { TPathOfLifeSettingsStringsOnly } from './types';
+import { AddListType } from '../ui/modals';
 
 export class PathOfLifeSettingTab extends PluginSettingTab {
 	plugin: PathOfLifePlugin;
@@ -88,7 +89,9 @@ export class PathOfLifeSettingTab extends PluginSettingTab {
 			button
 				.setButtonText('Add new list type')
 				.setCta()
-				.onClick(() => {});
+				.onClick(() => {
+					new AddListType(this.plugin.app, this.plugin).open();
+				});
 		});
 	}
 

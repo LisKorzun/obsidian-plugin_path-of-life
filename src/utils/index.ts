@@ -1,5 +1,6 @@
 import { folderCreate } from './folderCreate';
 import { folderHighlight } from './folderHighlight';
+import { folderExists } from './folderExists';
 import { fileHighlight } from './fileHighlight';
 import { fileExists } from './fileExists';
 import { fileDelete } from './fileDelete';
@@ -15,6 +16,7 @@ export {
 	// Folder Utilities
 	folderCreate,
 	folderHighlight,
+	folderExists,
 
 	// File Utilities
 	fileHighlight,
