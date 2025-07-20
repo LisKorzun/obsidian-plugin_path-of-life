@@ -5,6 +5,7 @@ import { chronologicalNoteExpenseTemplate } from './chronologicalNoteExpenseTemp
 import { chronologicalNoteDiaryTemplate } from './chronologicalNoteDiaryTemplate';
 import { chronologicalNoteQuoteTemplate } from './chronologicalNoteQuoteTemplate';
 import { listsRootTemplate } from './listsRootTemplate';
+import { listsBookTemplate } from './listsBookTemplate';
 
 export {
 	hierarchicalNoteRootTemplate,
@@ -14,4 +15,5 @@ export {
 	chronologicalNoteDiaryTemplate,
 	chronologicalNoteQuoteTemplate,
 	listsRootTemplate,
+	listsBookTemplate,
 };

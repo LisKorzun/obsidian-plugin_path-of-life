@@ -29,26 +29,26 @@ export class ListsNoteRootHero implements ViewComponent {
 
 	renderAddButtons() {
 		const tabsEl = this.container.createDiv();
-		new HeroTabs(tabsEl, getTabsOfLists()).display();
+		new HeroTabs(tabsEl, getTabsOfLists(this.plugin)).display();
 	}
 }
 
-function getTabsOfLists(): THeroTab[] {
+function getTabsOfLists(plugin: PathOfLifePlugin): THeroTab[] {
 	return [
 		{
 			label: 'Books',
 			icon: 'library-big',
-			content: new ListOfBooks(),
+			content: new ListOfBooks(plugin),
 		},
 		{
 			label: 'Keywords',
 			icon: 'key-square',
-			content: new ListOfBooks(),
+			content: new ListOfBooks(plugin),
 		},
 		{
 			label: 'Persons',
 			icon: 'user',
-			content: new ListOfBooks(),
+			content: new ListOfBooks(plugin),
 		},
 	];
 }

@@ -1,4 +1,5 @@
 import { TFile } from 'obsidian';
+import PathOfLifePlugin from '../../main';
 
 export interface ViewComponent {
 	display(): void;
@@ -11,6 +12,7 @@ export class THierarchicalNoteFile extends TFile {
 
 export interface IHeroTabPanel {
 	container: HTMLElement;
+	plugin: PathOfLifePlugin;
 	display(container: HTMLElement): void;
 }
 
